@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { background-color: #F8F9FA; font-family: 'Segoe UI', system-ui, sans-serif; color: #334155; line-height: 1.6; user-select: none; }
-    .card-3d { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #E2E8F0; margin-bottom: 24px; }
+    .card-3d { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #E2E8F0; margin-bottom: 24px; }
     .relogio-teste { font-size: 20px; font-weight: bold; color: white; background: #33658A; padding: 8px 24px; border-radius: 6px; display: inline-block; transition: all 0.3s;}
     
     @keyframes piscarAlerta { 0% { background-color: #dc3545; box-shadow: 0 0 10px #dc3545;} 50% { background-color: #ffc107; box-shadow: none;} 100% { background-color: #dc3545; box-shadow: 0 0 10px #dc3545;} }
@@ -19,47 +19,63 @@
 </head>
 <body oncopy="return false" oncut="return false" onpaste="return false">
 
+  <div id="alertaViolacao" class="escondido" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 9999; background-color: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center;">
+    <div style="background-color: #dc3545; color: white; padding: 40px; border-radius: 12px; text-align: center; max-width: 600px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border-bottom: 8px solid #721c24;">
+      <i class="fas fa-exclamation-triangle mb-3" style="font-size: 60px;"></i>
+      <h2 class="fw-bold mb-3">CUIDADO! Alerta de violação de dados detectado.</h2>
+      <p class="mb-4" style="font-size: 18px;">Você saiu da tela da atividade. Você só pode usar suas anotações no caderno ou sua apostila para responder essa questão. <strong>O uso de outras guias e navegadores não é permitido.</strong></p>
+      <button class="btn btn-dark fw-bold px-4 py-3 w-100 fs-5" onclick="document.getElementById('alertaViolacao').classList.add('escondido')">ESTOU CIENTE</button>
+    </div>
+  </div>
+
   <div id="telaCarregando" class="container py-5 text-center">
     <h3><i class="fas fa-spinner fa-spin text-primary"></i> Carregando Atividade...</h3>
   </div>
 
-  <div id="telaIdentificacao" class="container py-5 escondido" style="max-width: 700px;">
+  <div id="telaIdentificacao" class="container py-5 escondido" style="max-width: 900px;">
     <div class="card-3d" style="border-top: 5px solid #33658A;">
       <h2 class="text-center mb-4" style="color: #33658A; font-weight: 700;">Atividade Diagnóstica de Desempenho</h2>
-      <p>Parabéns por concluir esta etapa do seu curso! Esta atividade foi elaborada para avaliar os conhecimentos e as habilidades desenvolvidos ao longo da sua formação.</p>
       
-      <h5 class="mt-4 mb-3 fw-bold text-dark"><i class="fas fa-exclamation-triangle text-warning"></i> Orientações Importantes</h5>
-      <ul class="text-muted">
-        <li>Leia cada questão com atenção antes de responder.</li>
-        <li><strong>Esta atividade possui tempo controlado para realização.</strong> Você terá exatamente <strong id="textoTempoTotal" class="text-danger">--</strong> para concluir todas as questões.</li>
+      <p class="fs-5">Parabéns por concluir esta etapa do seu curso!</p>
+      <p>Esta atividade foi elaborada para avaliar os conhecimentos e as habilidades desenvolvidos ao longo da sua formação. As questões abordam conteúdos trabalhados durante as aulas e têm como objetivo identificar seu nível de aprendizagem e desempenho.</p>
+      
+      <h5 class="mt-4 mb-3 fw-bold text-dark"><i class="fas fa-clipboard-list text-warning"></i> Orientações Importantes</h5>
+      <ul class="text-muted" style="list-style-type: none; padding-left: 0;">
+        <li class="mb-2"><strong>&middot;</strong> Leia cada questão com atenção antes de responder.</li>
+        <li class="mb-2"><strong>&middot;</strong> Responda de acordo com os conhecimentos adquiridos durante o curso.</li>
+        <li class="mb-2"><strong>&middot;</strong> Esta atividade possui tempo controlado para realização. Você terá exatamente <strong id="textoTempoTotal" class="text-danger">--</strong> para concluir todas as questões.</li>
       </ul>
 
-      <div class="alert alert-warning border-warning bg-light mt-3" style="font-size: 14px;">
-        <strong>⚠️ Atenção:</strong> O tempo será contabilizado automaticamente. O uso de outras guias ou navegadores não é permitido sob pena de anulação.
+      <div class="alert alert-warning border-warning bg-light mt-4" style="font-size: 15px;">
+        <p><strong>⚠️ Atenção:</strong> Após iniciar a atividade, o tempo começará a ser contabilizado automaticamente. Caso o prazo seja encerrado antes da finalização, as questões não respondidas serão registradas com pontuação zero.</p>
+        <p>Se isso ocorrer, um novo link para realização de outra atividade será disponibilizado em sua próxima aula, possibilitando a obtenção da pontuação necessária para o acompanhamento do seu desempenho.</p>
+        <p>Em caso de dúvidas durante a realização da atividade, procure imediatamente seu Professor(a) ou Instrutor(a).</p>
+        <p class="mb-0 text-center fw-bold text-dark mt-3">Desejamos um excelente desempenho e sucesso em sua avaliação!</p>
       </div>
 
       <hr class="my-4">
       <div class="row g-3">
         <div class="col-md-8">
           <label class="fw-bold mb-1">Nome completo do Aluno(a):</label>
-          <input type="text" id="nomeAluno" class="form-control fw-bold" placeholder="Digite seu nome completo">
+          <input type="text" id="nomeAluno" class="form-control form-control-lg fw-bold" placeholder="Digite seu nome completo">
         </div>
         <div class="col-md-4">
           <label class="fw-bold mb-1">Matrícula:</label>
-          <input type="text" id="matriculaAluno" class="form-control text-center fw-bold" placeholder="Nº da Matrícula">
+          <input type="text" id="matriculaAluno" class="form-control form-control-lg text-center fw-bold" placeholder="Nº da Matrícula">
         </div>
       </div>
-      <button id="btnIniciar" class="btn btn-success w-100 mt-4 fw-bold py-2 fs-5" onclick="iniciarProva()">Iniciar Atividade Diagnóstica</button>
+      <button id="btnIniciar" class="btn btn-success w-100 mt-4 fw-bold py-3 fs-5 shadow-sm" onclick="iniciarProva()">Iniciar Atividade Diagnóstica</button>
     </div>
   </div>
 
   <div id="telaAtividade" class="container py-4 escondido" style="max-width: 800px;">
     <div class="text-center mb-3">
       <div id="relogioProva" class="relogio-teste mx-auto">⏳ Calculando...</div>
-      <div class="progress mt-3 border"><div id="barraProgresso" class="progress-bar bg-primary" style="width: 0%;"></div></div>
+      <div class="progress mt-3 border" style="height: 10px;"><div id="barraProgresso" class="progress-bar bg-primary" style="width: 0%;"></div></div>
     </div>
     <div id="areaQuestao" class="card-3d shadow-sm" style="border-top: 4px solid #F26419; min-height: 250px;"></div>
-    <button id="btnAvancar" class="btn btn-secondary w-100 py-2 fw-bold shadow-sm mt-3" disabled onclick="avancarQuestao()">Aguarde...</button>
+    
+    <button id="btnAvancar" class="btn btn-secondary w-100 py-3 fw-bold shadow-sm mt-3" disabled onclick="avancarQuestao()">Aguarde...</button>
   </div>
 
   <div id="telaFim" class="container py-5 escondido text-center" style="max-width: 600px;">
@@ -76,12 +92,8 @@
   </div>
 
   <script>
-    // =======================================================================
-    // COLOQUE O LINK OFICIAL DO SEU GOOGLE APPS SCRIPT AQUI DENTRO DAS ASPAS!
-    // =======================================================================
     const URL_API_GOOGLE = "https://script.google.com/macros/s/AKfycbzEjn_R54vUXpglydH_z669p53Smxw84wt7gm9KPdQSlp5rMHovbxb7-pq7MSWv6Mfd/exec";
     
-    // Captura o ID da atividade via URL do GitHub (ex: github.io/aluno.html?id=CAD_12345)
     const urlParams = new URLSearchParams(window.location.search);
     const idCaderno = urlParams.get('id');
     
@@ -91,7 +103,6 @@
     window.onload = function() {
       if(!idCaderno) { document.getElementById('telaCarregando').innerHTML = "<h3>⚠️ Link inválido. Falta o código da atividade.</h3>"; return; }
       
-      // Comunicação com o Google Apps Script sem exigir login do aluno!
       fetch(`${URL_API_GOOGLE}?api=buscarProva&id=${idCaderno}`)
         .then(response => response.json())
         .then(data => prepararProva(data))
@@ -112,11 +123,11 @@
       respostasAluno = new Array(caderno.questoes.length).fill(null);
     }
 
-    // TRAVA DE SEGURANÇA
+    // TRAVA DE SEGURANÇA VISUAL E REINÍCIO DE TEMPO
     document.addEventListener("visibilitychange", function() {
       if (document.hidden && provaRodando && tempoRestante > 0) {
         tempoRestante = provaAtual.questoes[indiceAtual].tempo; 
-        alert("Cuidado! Alerta de violação de dados detectado.\n\nVocê só pode usar suas anotações no caderno ou sua apostila para responder essa questão. O uso de outras guias e navegadores não é permitido.");
+        document.getElementById('alertaViolacao').classList.remove('escondido');
       }
     });
 
@@ -138,62 +149,85 @@
       tempoRestante = q.tempo;
       document.getElementById('barraProgresso').style.width = `${((indiceAtual) / provaAtual.questoes.length) * 100}%`;
       
-      let html = `<div class="text-muted small fw-bold mb-3 border-bottom pb-1">Questão ${indiceAtual + 1} de ${provaAtual.questoes.length}</div>`;
+      // Ocultado o "Questão 1 de 9"
+      let html = `<div class="text-muted small fw-bold mb-3 border-bottom pb-1 text-uppercase">Análise de Conhecimento em Andamento</div>`;
       if(q.tipo === "estudo_caso") html += `<div class="p-3 bg-light border-start border-4 border-info mb-3 font-italic">${q.contexto.replace(/\n/g, '<br>')}</div>`;
       
       if(q.tipo === "lacunas") { html += `<p class="fw-bold mb-4">${q.enunciado.replace(/_{3,}/g, '<input type="text" class="form-control d-inline-block resp-multi mx-1" style="width:100px; height:35px;" oninput="checarPreenchimento()">')}</p>`;
-      } else if(q.tipo !== "assercao_razao") { html += `<p class="fw-bold mb-3">${q.enunciado || ""}</p>`; }
+      } else if(q.tipo !== "assercao_razao") { html += `<p class="fw-bold mb-3 fs-5">${q.enunciado || ""}</p>`; }
 
       if (q.tipo === "multipla_escolha") {
-        ['A','B','C','D','E'].forEach(l => { if(q.opcoes && q.opcoes[l]) html += `<div class="form-check mb-2"><input class="form-check-input" type="radio" name="resp" value="${l}" onclick="checarPreenchimento()"><label class="form-check-label ms-1"><strong>${l})</strong> ${q.opcoes[l]}</label></div>`; });
+        ['A','B','C','D','E'].forEach(l => { if(q.opcoes && q.opcoes[l]) html += `<div class="form-check mb-2"><input class="form-check-input" type="radio" name="resp" value="${l}" onclick="checarPreenchimento()"><label class="form-check-label ms-1" style="font-size: 16px;"><strong>${l})</strong> ${q.opcoes[l]}</label></div>`; });
       } else if (q.tipo === "certo_errado") {
-        html += `<div class="d-flex gap-4 mb-2"><div class="form-check"><input class="form-check-input" type="radio" name="resp" value="Certo" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-success">Certo</label></div><div class="form-check"><input class="form-check-input" type="radio" name="resp" value="Errado" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-danger">Errado</label></div></div>`;
+        html += `<div class="d-flex gap-4 mb-2"><div class="form-check"><input class="form-check-input" type="radio" name="resp" value="Certo" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-success fs-5">Certo</label></div><div class="form-check"><input class="form-check-input" type="radio" name="resp" value="Errado" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-danger fs-5">Errado</label></div></div>`;
       } else if (q.tipo === "assercao_razao") {
-        html += `<div class="bg-light p-2 rounded mb-3"><p class="mb-1">I. ${q.assercao}</p><div class="text-danger small fw-bold">PORQUE</div><p class="mb-0">II. ${q.razao}</p></div>`;
-        html += `<div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="A" onclick="checarPreenchimento()"> <label class="form-check-label">A) A I é verdadeira, a II é verdadeira e justifica a I.</label></div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="B" onclick="checarPreenchimento()"> <label class="form-check-label">B) A I é verdadeira, a II é verdadeira, mas NÃO justifica a I.</label></div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="C" onclick="checarPreenchimento()"> <label class="form-check-label">C) A I é verdadeira e a II é falsa.</label></div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="D" onclick="checarPreenchimento()"> <label class="form-check-label">D) A I é falsa e a II é verdadeira.</label></div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="E" onclick="checarPreenchimento()"> <label class="form-check-label">E) A I é falsa e a II é falsa.</label></div></div>`;
-      } else if (q.tipo === "associacao") { q.pares.forEach((p, idx) => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded"><div style="width: 40%;" class="fw-bold text-end pe-3 border-end">${idx+1}. ${p.a}</div><div style="width: 60%;" class="ps-3 d-flex align-items-center"><input type="text" class="form-control text-center resp-multi input-box-destaque me-2 p-0" style="width:40px; height:35px;" oninput="checarPreenchimento()"> ${p.b}</div></div>`; });
-      } else if (q.tipo === "ordenacao") { q.lista.forEach((item, idx) => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded"><div style="width: 80%;" class="ps-2">${item}</div><div style="width: 20%;" class="text-end pe-2"><input type="text" class="form-control text-center resp-multi input-box-destaque d-inline p-0" style="width:50px; height:35px;" oninput="checarPreenchimento()"></div></div>`; });
-      } else if (q.tipo === "verdadeiro_falso_mult") { q.lista.forEach(item => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded"><input type="text" class="form-control text-center resp-multi input-box-destaque me-3 p-0" style="width:40px; height:35px;" oninput="checarPreenchimento()"><span>${item}</span></div>`; });
-      } else if (q.tipo !== "lacunas") { html += `<textarea class="form-control resp-multi p-2" rows="4" oninput="checarPreenchimento()" placeholder="Digite sua resposta aqui..."></textarea>`; }
+        html += `<div class="bg-light p-3 rounded mb-3"><p class="mb-1">I. ${q.assercao}</p><div class="text-danger small fw-bold my-2">PORQUE</div><p class="mb-0">II. ${q.razao}</p></div>`;
+        html += `<div><div class="form-check mb-2"><input class="form-check-input" type="radio" name="resp" value="A" onclick="checarPreenchimento()"> <label class="form-check-label">A) A I é verdadeira, a II é verdadeira e justifica a I.</label></div><div class="form-check mb-2"><input class="form-check-input" type="radio" name="resp" value="B" onclick="checarPreenchimento()"> <label class="form-check-label">B) A I é verdadeira, a II é verdadeira, mas NÃO justifica a I.</label></div><div class="form-check mb-2"><input class="form-check-input" type="radio" name="resp" value="C" onclick="checarPreenchimento()"> <label class="form-check-label">C) A I é verdadeira e a II é falsa.</label></div><div class="form-check mb-2"><input class="form-check-input" type="radio" name="resp" value="D" onclick="checarPreenchimento()"> <label class="form-check-label">D) A I é falsa e a II é verdadeira.</label></div><div class="form-check mb-2"><input class="form-check-input" type="radio" name="resp" value="E" onclick="checarPreenchimento()"> <label class="form-check-label">E) A I é falsa e a II é falsa.</label></div></div>`;
+      } else if (q.tipo === "associacao") { q.pares.forEach((p, idx) => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded"><div style="width: 40%;" class="fw-bold text-end pe-3 border-end">${idx+1}. ${p.a}</div><div style="width: 60%;" class="ps-3 d-flex align-items-center"><input type="text" class="form-control text-center resp-multi input-box-destaque me-2 p-0" style="width:50px; height:40px;" oninput="checarPreenchimento()"> ${p.b}</div></div>`; });
+      } else if (q.tipo === "ordenacao") { q.lista.forEach((item, idx) => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded"><div style="width: 80%;" class="ps-2">${item}</div><div style="width: 20%;" class="text-end pe-2"><input type="text" class="form-control text-center resp-multi input-box-destaque d-inline p-0" style="width:60px; height:40px;" oninput="checarPreenchimento()"></div></div>`; });
+      } else if (q.tipo === "verdadeiro_falso_mult") { q.lista.forEach(item => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded"><input type="text" class="form-control text-center resp-multi input-box-destaque me-3 p-0" style="width:50px; height:40px;" oninput="checarPreenchimento()"><span>${item}</span></div>`; });
+      } else if (q.tipo !== "lacunas") { html += `<textarea class="form-control resp-multi p-3" rows="5" oninput="checarPreenchimento()" placeholder="Digite sua resposta aqui..."></textarea>`; }
       
       document.getElementById('areaQuestao').innerHTML = html;
-      checarPreenchimento(); 
+      checarPreenchimento(); // Trava inicial
       clearInterval(timer); timer = setInterval(baterRelogio, 1000);
     }
 
     function baterRelogio() {
-      tempoRestante--;
+      if (tempoRestante > 0) tempoRestante--;
+      
       const relogio = document.getElementById('relogioProva');
       const btn = document.getElementById('btnAvancar');
       
+      // Quando o tempo obrigatório acaba
       if (tempoRestante <= 0) {
-        tempoRestante = 0; relogio.innerText = `⏳ 0s`; relogio.classList.remove('tempo-acabando'); clearInterval(timer);
-        const elementosParaBloquear = document.querySelectorAll('#areaQuestao input, #areaQuestao textarea');
-        elementosParaBloquear.forEach(el => el.disabled = true);
-        btn.disabled = false; btn.className = "btn btn-danger w-100 py-2 fw-bold shadow-sm mt-3";
-        btn.innerText = (indiceAtual === provaAtual.questoes.length - 1) ? "Finalizar Atividade (Tempo Esgotado)" : "Avançar (Tempo Esgotado)";
+        tempoRestante = 0; 
+        relogio.innerText = `⏳ Tempo Obrigatório Concluído`; 
+        relogio.classList.remove('tempo-acabando'); 
+        clearInterval(timer);
+        
+        // Os inputs NÃO são bloqueados mais, o aluno pode continuar editando
+        checarPreenchimento(); // Verifica se ele já digitou algo para liberar o botão
         return;
       }
       
+      // Enquanto o tempo estiver rodando, o botão fica forçadamente bloqueado
       relogio.innerText = `⏳ ${tempoRestante}s`;
       if(tempoRestante <= 10) { relogio.classList.add('tempo-acabando'); } else { relogio.classList.remove('tempo-acabando'); }
-      if(btn.disabled) { btn.innerText = `Preencha para avançar... (${tempoRestante}s)`; }
+      
+      btn.disabled = true; 
+      btn.className = "btn btn-secondary w-100 py-3 fw-bold shadow-sm mt-3"; 
+      btn.innerText = `Aguarde o término do tempo... (${tempoRestante}s)`;
     }
 
     function checarPreenchimento() {
-      if(tempoRestante <= 0) return; 
+      const btn = document.getElementById('btnAvancar');
+      
+      // Só libera a checagem se o tempo chegou a zero
+      if (tempoRestante > 0) {
+         btn.disabled = true;
+         return;
+      }
+
       let respondeu = false;
       const radios = document.querySelectorAll('#areaQuestao input[type="radio"]:checked');
       const inputs = document.querySelectorAll('#areaQuestao input[type="text"], #areaQuestao textarea');
+      
       if (radios.length > 0) respondeu = true;
-      if (inputs.length > 0) { let full = true; inputs.forEach(i => { if(i.value.trim() === '') full = false; }); if(full) respondeu = true; }
+      if (inputs.length > 0) { 
+          let full = true; 
+          inputs.forEach(i => { if(i.value.trim() === '') full = false; }); 
+          if(full) respondeu = true; 
+      }
 
-      const btn = document.getElementById('btnAvancar');
       if(respondeu) {
-        btn.disabled = false; btn.className = "btn btn-primary w-100 py-2 fw-bold shadow-sm mt-3";
-        btn.innerText = (indiceAtual === provaAtual.questoes.length - 1) ? "Finalizar Atividade" : "Salvar e Avançar";
+        btn.disabled = false; 
+        btn.className = "btn btn-primary w-100 py-3 fs-5 fw-bold shadow-sm mt-3";
+        btn.innerText = (indiceAtual === provaAtual.questoes.length - 1) ? "Finalizar Atividade" : "Avançar para a próxima";
       } else {
-        btn.disabled = true; btn.className = "btn btn-secondary w-100 py-2 fw-bold shadow-sm mt-3"; btn.innerText = `Preencha para avançar... (${tempoRestante}s)`;
+        btn.disabled = true; 
+        btn.className = "btn btn-secondary w-100 py-3 fw-bold shadow-sm mt-3"; 
+        btn.innerText = `Por favor, responda a questão para poder avançar`;
       }
     }
 
@@ -201,10 +235,10 @@
       const q = provaAtual.questoes[indiceAtual];
       if(["multipla_escolha", "certo_errado", "assercao_razao"].includes(q.tipo)) {
         const rad = document.querySelector('input[name="resp"]:checked');
-        respostasAluno[indiceAtual] = rad ? rad.value : "Não respondeu (Tempo Esgotado)";
+        respostasAluno[indiceAtual] = rad ? rad.value : "";
       } else {
         const inputs = document.querySelectorAll('.resp-multi'); let vals = []; 
-        inputs.forEach(i => vals.push(i.value.trim() !== '' ? i.value : "Não respondeu (Tempo Esgotado)"));
+        inputs.forEach(i => vals.push(i.value.trim()));
         respostasAluno[indiceAtual] = vals.join(", ");
       }
       indiceAtual++; carregarQuestao();
@@ -216,10 +250,9 @@
       provaRodando = false; clearInterval(timer);
       document.getElementById('telaAtividade').classList.add('escondido');
       
-      // Tela de carregamento do envio
       const telaFim = document.getElementById('telaFim');
       telaFim.classList.remove('escondido');
-      telaFim.innerHTML = `<h3><i class="fas fa-spinner fa-spin text-success"></i> Enviando para o professor...</h3>`;
+      telaFim.innerHTML = `<h3><i class="fas fa-spinner fa-spin text-success"></i> Enviando respostas ao sistema...</h3>`;
 
       provaAtual.questoes.forEach((q, i) => {
         let respA = respostasAluno[i] || ""; let gabarito = q.resposta || ""; let pts = parseFloat(q.pontos) || 0;
@@ -230,23 +263,21 @@
           let perc = pc.length > 0 ? (enc / pc.length) : 0;
           if (perc >= 0.6) { notaFinal += pts; } else if (perc >= 0.25) { notaFinal += pts/2; }
         } else {
-          if(respA.replace(/\s/g,'').toLowerCase() === gabarito.replace(/\s/g,'').toLowerCase() && !respA.includes("Não respondeu")) { notaFinal += pts; }
+          if(respA.replace(/\s/g,'').toLowerCase() === gabarito.replace(/\s/g,'').toLowerCase()) { notaFinal += pts; }
         }
       });
 
-      // ENVIA PARA A API DO GOOGLE APPS SCRIPT
       fetch(URL_API_GOOGLE, {
         method: 'POST',
-        // text/plain burla as travas de CORS padrão de formulários do Google
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           api: 'salvarNota', idCaderno: idCaderno, nome: document.getElementById('nomeAluno').value,
           matricula: document.getElementById('matriculaAluno').value, nota: notaFinal, notaTotal: totalPts, respostas: respostasAluno
         })
       }).then(res => {
-         telaFim.innerHTML = `<div class="card-3d" style="border-top: 5px solid #28a745;"><i class="fas fa-paper-plane text-success mb-3" style="font-size: 50px;"></i><h3 class="fw-bold text-success">Respostas Enviadas para o professor!</h3><p class="text-muted mt-2">Sua Atividade Diagnóstica de Desempenho foi registrada com sucesso!</p><button class="btn btn-outline-primary mt-4 fw-bold" onclick="mostrarGabarito()"><i class="fas fa-list-check"></i> Ver Pontuação/Correção</button></div>`;
+         telaFim.innerHTML = `<div class="card-3d" style="border-top: 5px solid #28a745;"><i class="fas fa-paper-plane text-success mb-3" style="font-size: 50px;"></i><h3 class="fw-bold text-success">Respostas Enviadas com Sucesso!</h3><p class="text-muted mt-2">Sua Atividade Diagnóstica de Desempenho foi registrada na base do professor.</p><button class="btn btn-outline-primary mt-4 fw-bold" onclick="mostrarGabarito()"><i class="fas fa-list-check"></i> Ver Pontuação/Correção</button></div>`;
       }).catch(err => {
-         telaFim.innerHTML = `<h3>⚠️ Erro ao enviar nota. Avise o professor.</h3>`;
+         telaFim.innerHTML = `<h3>⚠️ Erro de conexão ao enviar nota. Avise o professor.</h3>`;
       });
     }
 
@@ -264,9 +295,9 @@
           let perc = pc.length > 0 ? (enc / pc.length) : 0;
           if(perc >= 0.6) { cor = "border-success"; ico = "✅"; } else if (perc>=0.25) { cor = "border-warning"; ico = "⚠️"; }
         } else {
-          if(respA.replace(/\s/g,'').toLowerCase() === gabarito.replace(/\s/g,'').toLowerCase() && !respA.includes("Não respondeu")) { cor = "border-success"; ico = "✅"; }
+          if(respA.replace(/\s/g,'').toLowerCase() === gabarito.replace(/\s/g,'').toLowerCase() && respA !== "") { cor = "border-success"; ico = "✅"; }
         }
-        html += `<div class="p-3 mb-2 border rounded bg-white ${cor}" style="border-left-width: 5px !important;"><div class="fw-bold border-bottom pb-1 mb-2">${ico} Questão ${i+1}</div><div class="row g-2 small"><div class="col-6 border-end pe-2"><span class="text-muted d-block" style="font-size:11px;">SUA RESPOSTA:</span><strong>${respA}</strong></div><div class="col-6 ps-2"><span class="text-muted d-block" style="font-size:11px;">GABARITO:</span><strong class="text-success">${gabarito}</strong></div></div></div>`;
+        html += `<div class="p-3 mb-2 border rounded bg-white ${cor}" style="border-left-width: 5px !important;"><div class="fw-bold border-bottom pb-1 mb-2">${ico} Análise ${i+1}</div><div class="row g-2 small"><div class="col-6 border-end pe-2"><span class="text-muted d-block" style="font-size:11px;">SUA RESPOSTA:</span><strong>${respA}</strong></div><div class="col-6 ps-2"><span class="text-muted d-block" style="font-size:11px;">GABARITO:</span><strong class="text-success">${gabarito}</strong></div></div></div>`;
       });
       box.innerHTML = html;
     }
