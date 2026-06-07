@@ -117,31 +117,44 @@
       
       let totalSegundos = caderno.questoes.reduce((acc, q) => acc + parseInt(q.tempo || 0), 0);
       let h = Math.floor(totalSegundos / 3600); let m = Math.floor((totalSegundos % 3600) / 60); let s = totalSegundos % 60;
-      let txtTempo = ""; if(h > 0) txtTempo += `${h} horas, `; txtTempo += `${m} minutes e ${s} segundos`;
+      let txtTempo = ""; if(h > 0) txtTempo += `${h} horas, `; txtTempo += `${m} minutos e ${s} segundos`;
       document.getElementById('textoTempoTotal').innerText = txtTempo;
       respostasAluno = new Array(caderno.questoes.length).fill(null);
     }
 
-    // TRAVA DE SEGURANÇA TOTAL: DETECTA SAÍDA MESMO COM TEMPO COMPLETO
-    document.addEventListener("visibilitychange", function() {
-      if (document.hidden && provaRodando) {
-        // Reseta o tempo da questão para o valor original cadastrado
-        tempoRestante = parseInt(provaAtual.questoes[indiceAtual].tempo || 60); 
-        
-        // Reinicia o motor do cronômetro imediatamente
-        clearInterval(timer);
-        timer = setInterval(baterRelogio, 1000);
-        
-        // Tranca o botão de avançar na hora
-        const btn = document.getElementById('btnAvancar');
-        btn.disabled = true;
-        btn.className = "btn btn-secondary w-100 py-3 fw-bold shadow-sm mt-3"; 
-        btn.innerText = `Aguarde o término do tempo... (${tempoRestante}s)`;
+    // =======================================================
+    // MOTOR ANTI-FRAUDE CENTRALIZADO (ATUALIZADO)
+    // =======================================================
+    function punirInfracao() {
+      if (!provaRodando) return;
+      
+      // 1. Reseta o tempo da questão para o valor original cadastrado
+      tempoRestante = parseInt(provaAtual.questoes[indiceAtual].tempo || 60); 
+      
+      // 2. Reinicia o motor do cronômetro imediatamente
+      clearInterval(timer);
+      timer = setInterval(baterRelogio, 1000);
+      
+      // 3. Tranca o botão de avançar na hora, garantindo que perca a classe primária
+      const btn = document.getElementById('btnAvancar');
+      btn.disabled = true;
+      btn.className = "btn btn-secondary w-100 py-3 fw-bold shadow-sm mt-3"; 
+      btn.innerText = `Aguarde o término do tempo... (${tempoRestante}s)`;
 
-        // Joga a barreira vermelha na tela do espertinho
-        document.getElementById('alertaViolacao').classList.remove('escondido');
-      }
+      // 4. Joga a barreira vermelha na tela do espertinho
+      document.getElementById('alertaViolacao').classList.remove('escondido');
+    }
+
+    // Gatilho 1: Quando troca de aba ou minimiza
+    document.addEventListener("visibilitychange", function() {
+      if (document.hidden) punirInfracao();
     });
+
+    // Gatilho 2: Quando clica FORA do navegador (Word, PDF, Menu Iniciar, 2º monitor)
+    window.addEventListener("blur", function() {
+      punirInfracao();
+    });
+    // =======================================================
 
     function iniciarProva() {
       const nome = document.getElementById('nomeAluno').value.trim();
