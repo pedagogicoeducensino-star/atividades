@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #F8F9FA; font-family: 'Segoe UI', system-ui, sans-serif; color: #334155; line-height: 1.6; user-select: none; }
+    .card-3d { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #E2E8F0; margin-bottom: 24px; }
+    .relogio-teste { font-size: 20px; font-weight: bold; color: white; background: #33658A; padding: 8px 24px; border-radius: 6px; display: inline-block; transition: all 0.3s;}
+    
+    @keyframes piscarAlerta { 0% { background-color: #dc3545; box-shadow: 0 0 10px #dc3545;} 50% { background-color: #ffc107; box-shadow: none;} 100% { background-color: #dc3545; box-shadow: 0 0 10px #dc3545;} }
+    .tempo-acabando { animation: piscarAlerta 1s infinite; color: white !important; }
+    
+    .escondido { display: none !important; }
+    .input-box-destaque { background-color: #FAFAF9; border: 1px solid #94A3B8; font-weight: 600; text-align: center; }
+  </style>
+</head>
+<body oncopy="return false" oncut="return false" onpaste="return false">
+
+  <div id="telaCarregando" class="container py-5 text-center">
+    <h3><i class="fas fa-spinner fa-spin text-primary"></i> Carregando Atividade...</h3>
+  </div>
+
+  <div id="telaIdentificacao" class="container py-5 escondido" style="max-width: 700px;">
+    <div class="card-3d" style="border-top: 5px solid #33658A;">
+      <h2 class="text-center mb-4" style="color: #33658A; font-weight: 700;">Atividade Diagnóstica de Desempenho</h2>
+      <p>Parabéns por concluir esta etapa do seu curso! Esta atividade foi elaborada para avaliar os conhecimentos e as habilidades desenvolvidos ao longo da sua formação.</p>
+      
+      <h5 class="mt-4 mb-3 fw-bold text-dark"><i class="fas fa-exclamation-triangle text-warning"></i> Orientações Importantes</h5>
+      <ul class="text-muted">
+        <li>Leia cada questão com atenção antes de responder.</li>
+        <li><strong>Esta atividade possui tempo controlado para realização.</strong> Você terá exatamente <strong id="textoTempoTotal" class="text-danger">--</strong> para concluir todas as questões.</li>
+      </ul>
+
+      <div class="alert alert-warning border-warning bg-light mt-3" style="font-size: 14px;">
+        <strong>⚠️ Atenção:</strong> O tempo será contabilizado automaticamente. O uso de outras guias ou navegadores não é permitido sob pena de anulação.
+      </div>
+
+      <hr class="my-4">
+      <div class="row g-3">
+        <div class="col-md-8">
+          <label class="fw-bold mb-1">Nome completo do Aluno(a):</label>
+          <input type="text" id="nomeAluno" class="form-control fw-bold" placeholder="Digite seu nome completo">
+        </div>
+        <div class="col-md-4">
+          <label class="fw-bold mb-1">Matrícula:</label>
+          <input type="text" id="matriculaAluno" class="form-control text-center fw-bold" placeholder="Nº da Matrícula">
+        </div>
+      </div>
+      <button id="btnIniciar" class="btn btn-success w-100 mt-4 fw-bold py-2 fs-5" onclick="iniciarProva()">Iniciar Atividade Diagnóstica</button>
+    </div>
+  </div>
+
+  <div id="telaAtividade" class="container py-4 escondido" style="max-width: 800px;">
+    <div class="text-center mb-3">
+      <div id="relogioProva" class="relogio-teste mx-auto">⏳ Calculando...</div>
+      <div class="progress mt-3 border"><div id="barraProgresso" class="progress-bar bg-primary" style="width: 0%;"></div></div>
+    </div>
+    <div id="areaQuestao" class="card-3d shadow-sm" style="border-top: 4px solid #F26419; min-height: 250px;"></div>
+    <button id="btnAvancar" class="btn btn-secondary w-100 py-2 fw-bold shadow-sm mt-3" disabled onclick="avancarQuestao()">Aguarde...</button>
+  </div>
+
+  <div id="telaFim" class="container py-5 escondido text-center" style="max-width: 600px;">
+    <div class="card-3d" style="border-top: 5px solid #28a745;">
+      <i class="fas fa-paper-plane text-success mb-3" style="font-size: 50px;"></i>
+      <h3 class="fw-bold text-success">Respostas Enviadas para o professor!</h3>
+      <p class="text-muted mt-2">Sua Atividade Diagnóstica de Desempenho foi registrada com sucesso!</p>
+      <button class="btn btn-outline-primary mt-4 fw-bold" onclick="mostrarGabarito()"><i class="fas fa-list-check"></i> Ver Pontuação/Correção</button>
+    </div>
+  </div>
+
+  <div id="telaRelatorio" class="container py-4 escondido" style="max-width: 800px;">
+    <div id="areaChecklist" class="card-3d bg-light shadow-sm pb-3"></div>
+  </div>
+
+  <script>
+    // =======================================================================
+    // COLOQUE O LINK OFICIAL DO SEU GOOGLE APPS SCRIPT AQUI DENTRO DAS ASPAS!
+    // =======================================================================
+    const URL_API_GOOGLE = "COLOQUE_AQUI_O_LINK_DO_SEU_APPS_SCRIPT_TERMINADO_EM_EXEC";
+    
+    // Captura o ID da atividade via URL do GitHub (ex: github.io/aluno.html?id=CAD_12345)
+    const urlParams = new URLSearchParams(window.location.search);
+    const idCaderno = urlParams.get('id');
+    
+    let provaAtual = null; let indiceAtual = 0; let tempoRestante = 0;
+    let timer = null; let respostasAluno = []; let provaRodando = false;
+
+    window.onload = function() {
+      if(!idCaderno) { document.getElementById('telaCarregando').innerHTML = "<h3>⚠️ Link inválido. Falta o código da atividade.</h3>"; return; }
+      
+      // Comunicação com o Google Apps Script sem exigir login do aluno!
+      fetch(`${URL_API_GOOGLE}?api=buscarProva&id=${idCaderno}`)
+        .then(response => response.json())
+        .then(data => prepararProva(data))
+        .catch(error => { document.getElementById('telaCarregando').innerHTML = "<h3>⚠️ Erro ao carregar atividade. Tente novamente.</h3>"; });
+    };
+
+    function prepararProva(caderno) {
+      document.getElementById('telaCarregando').classList.add('escondido');
+      if(!caderno || !caderno.questoes) { document.getElementById('telaIdentificacao').innerHTML = "<h3>⚠️ Atividade não encontrada ou indisponível.</h3>"; document.getElementById('telaIdentificacao').classList.remove('escondido'); return; }
+      
+      provaAtual = caderno;
+      document.getElementById('telaIdentificacao').classList.remove('escondido');
+      
+      let totalSegundos = caderno.questoes.reduce((acc, q) => acc + parseInt(q.tempo || 0), 0);
+      let h = Math.floor(totalSegundos / 3600); let m = Math.floor((totalSegundos % 3600) / 60); let s = totalSegundos % 60;
+      let txtTempo = ""; if(h > 0) txtTempo += `${h} horas, `; txtTempo += `${m} minutos e ${s} segundos`;
+      document.getElementById('textoTempoTotal').innerText = txtTempo;
+      respostasAluno = new Array(caderno.questoes.length).fill(null);
+    }
+
+    // TRAVA DE SEGURANÇA
+    document.addEventListener("visibilitychange", function() {
+      if (document.hidden && provaRodando && tempoRestante > 0) {
+        tempoRestante = provaAtual.questoes[indiceAtual].tempo; 
+        alert("Cuidado! Alerta de violação de dados detectado.\n\nVocê só pode usar suas anotações no caderno ou sua apostila para responder essa questão. O uso de outras guias e navegadores não é permitido.");
+      }
+    });
+
+    function iniciarProva() {
+      const nome = document.getElementById('nomeAluno').value.trim();
+      const mat = document.getElementById('matriculaAluno').value.trim();
+      if(!nome || !mat) { alert("⚠️ Preencha Nome e Matrícula para iniciar."); return; }
+      
+      document.getElementById('telaIdentificacao').classList.add('escondido');
+      document.getElementById('telaAtividade').classList.remove('escondido');
+      provaRodando = true;
+      carregarQuestao();
+    }
+
+    function carregarQuestao() {
+      if(indiceAtual >= provaAtual.questoes.length) { finalizarEEnviar(); return; }
+      
+      const q = provaAtual.questoes[indiceAtual];
+      tempoRestante = q.tempo;
+      document.getElementById('barraProgresso').style.width = `${((indiceAtual) / provaAtual.questoes.length) * 100}%`;
+      
+      let html = `<div class="text-muted small fw-bold mb-3 border-bottom pb-1">Questão ${indiceAtual + 1} de ${provaAtual.questoes.length}</div>`;
+      if(q.tipo === "estudo_caso") html += `<div class="p-3 bg-light border-start border-4 border-info mb-3 font-italic">${q.contexto.replace(/\n/g, '<br>')}</div>`;
+      
+      if(q.tipo === "lacunas") { html += `<p class="fw-bold mb-4">${q.enunciado.replace(/_{3,}/g, '<input type="text" class="form-control d-inline-block resp-multi mx-1" style="width:100px; height:35px;" oninput="checarPreenchimento()">')}</p>`;
+      } else if(q.tipo !== "assercao_razao") { html += `<p class="fw-bold mb-3">${q.enunciado || ""}</p>`; }
+
+      if (q.tipo === "multipla_escolha") {
+        ['A','B','C','D','E'].forEach(l => { if(q.opcoes && q.opcoes[l]) html += `<div class="form-check mb-2"><input class="form-check-input" type="radio" name="resp" value="${l}" onclick="checarPreenchimento()"><label class="form-check-label ms-1"><strong>${l})</strong> ${q.opcoes[l]}</label></div>`; });
+      } else if (q.tipo === "certo_errado") {
+        html += `<div class="d-flex gap-4 mb-2"><div class="form-check"><input class="form-check-input" type="radio" name="resp" value="Certo" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-success">Certo</label></div><div class="form-check"><input class="form-check-input" type="radio" name="resp" value="Errado" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-danger">Errado</label></div></div>`;
+      } else if (q.tipo === "assercao_razao") {
+        html += `<div class="bg-light p-2 rounded mb-3"><p class="mb-1">I. ${q.assercao}</p><div class="text-danger small fw-bold">PORQUE</div><p class="mb-0">II. ${q.razao}</p></div>`;
+        html += `<div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="A" onclick="checarPreenchimento()"> <label class="form-check-label">A) A I é verdadeira, a II é verdadeira e justifica a I.</label></div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="B" onclick="checarPreenchimento()"> <label class="form-check-label">B) A I é verdadeira, a II é verdadeira, mas NÃO justifica a I.</label></div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="C" onclick="checarPreenchimento()"> <label class="form-check-label">C) A I é verdadeira e a II é falsa.</label></div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="D" onclick="checarPreenchimento()"> <label class="form-check-label">D) A I é falsa e a II é verdadeira.</label></div><div class="form-check mb-1"><input class="form-check-input" type="radio" name="resp" value="E" onclick="checarPreenchimento()"> <label class="form-check-label">E) A I é falsa e a II é falsa.</label></div></div>`;
+      } else if (q.tipo === "associacao") { q.pares.forEach((p, idx) => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded"><div style="width: 40%;" class="fw-bold text-end pe-3 border-end">${idx+1}. ${p.a}</div><div style="width: 60%;" class="ps-3 d-flex align-items-center"><input type="text" class="form-control text-center resp-multi input-box-destaque me-2 p-0" style="width:40px; height:35px;" oninput="checarPreenchimento()"> ${p.b}</div></div>`; });
+      } else if (q.tipo === "ordenacao") { q.lista.forEach((item, idx) => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded"><div style="width: 80%;" class="ps-2">${item}</div><div style="width: 20%;" class="text-end pe-2"><input type="text" class="form-control text-center resp-multi input-box-destaque d-inline p-0" style="width:50px; height:35px;" oninput="checarPreenchimento()"></div></div>`; });
+      } else if (q.tipo === "verdadeiro_falso_mult") { q.lista.forEach(item => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded"><input type="text" class="form-control text-center resp-multi input-box-destaque me-3 p-0" style="width:40px; height:35px;" oninput="checarPreenchimento()"><span>${item}</span></div>`; });
+      } else if (q.tipo !== "lacunas") { html += `<textarea class="form-control resp-multi p-2" rows="4" oninput="checarPreenchimento()" placeholder="Digite sua resposta aqui..."></textarea>`; }
+      
+      document.getElementById('areaQuestao').innerHTML = html;
+      checarPreenchimento(); 
+      clearInterval(timer); timer = setInterval(baterRelogio, 1000);
+    }
+
+    function baterRelogio() {
+      tempoRestante--;
+      const relogio = document.getElementById('relogioProva');
+      const btn = document.getElementById('btnAvancar');
+      
+      if (tempoRestante <= 0) {
+        tempoRestante = 0; relogio.innerText = `⏳ 0s`; relogio.classList.remove('tempo-acabando'); clearInterval(timer);
+        const elementosParaBloquear = document.querySelectorAll('#areaQuestao input, #areaQuestao textarea');
+        elementosParaBloquear.forEach(el => el.disabled = true);
+        btn.disabled = false; btn.className = "btn btn-danger w-100 py-2 fw-bold shadow-sm mt-3";
+        btn.innerText = (indiceAtual === provaAtual.questoes.length - 1) ? "Finalizar Atividade (Tempo Esgotado)" : "Avançar (Tempo Esgotado)";
+        return;
+      }
+      
+      relogio.innerText = `⏳ ${tempoRestante}s`;
+      if(tempoRestante <= 10) { relogio.classList.add('tempo-acabando'); } else { relogio.classList.remove('tempo-acabando'); }
+      if(btn.disabled) { btn.innerText = `Preencha para avançar... (${tempoRestante}s)`; }
+    }
+
+    function checarPreenchimento() {
+      if(tempoRestante <= 0) return; 
+      let respondeu = false;
+      const radios = document.querySelectorAll('#areaQuestao input[type="radio"]:checked');
+      const inputs = document.querySelectorAll('#areaQuestao input[type="text"], #areaQuestao textarea');
+      if (radios.length > 0) respondeu = true;
+      if (inputs.length > 0) { let full = true; inputs.forEach(i => { if(i.value.trim() === '') full = false; }); if(full) respondeu = true; }
+
+      const btn = document.getElementById('btnAvancar');
+      if(respondeu) {
+        btn.disabled = false; btn.className = "btn btn-primary w-100 py-2 fw-bold shadow-sm mt-3";
+        btn.innerText = (indiceAtual === provaAtual.questoes.length - 1) ? "Finalizar Atividade" : "Salvar e Avançar";
+      } else {
+        btn.disabled = true; btn.className = "btn btn-secondary w-100 py-2 fw-bold shadow-sm mt-3"; btn.innerText = `Preencha para avançar... (${tempoRestante}s)`;
+      }
+    }
+
+    function avancarQuestao() {
+      const q = provaAtual.questoes[indiceAtual];
+      if(["multipla_escolha", "certo_errado", "assercao_razao"].includes(q.tipo)) {
+        const rad = document.querySelector('input[name="resp"]:checked');
+        respostasAluno[indiceAtual] = rad ? rad.value : "Não respondeu (Tempo Esgotado)";
+      } else {
+        const inputs = document.querySelectorAll('.resp-multi'); let vals = []; 
+        inputs.forEach(i => vals.push(i.value.trim() !== '' ? i.value : "Não respondeu (Tempo Esgotado)"));
+        respostasAluno[indiceAtual] = vals.join(", ");
+      }
+      indiceAtual++; carregarQuestao();
+    }
+
+    let notaFinal = 0; let totalPts = 0;
+    
+    function finalizarEEnviar() {
+      provaRodando = false; clearInterval(timer);
+      document.getElementById('telaAtividade').classList.add('escondido');
+      
+      // Tela de carregamento do envio
+      const telaFim = document.getElementById('telaFim');
+      telaFim.classList.remove('escondido');
+      telaFim.innerHTML = `<h3><i class="fas fa-spinner fa-spin text-success"></i> Enviando para o professor...</h3>`;
+
+      provaAtual.questoes.forEach((q, i) => {
+        let respA = respostasAluno[i] || ""; let gabarito = q.resposta || ""; let pts = parseFloat(q.pontos) || 0;
+        totalPts += pts;
+        if(["dissertativa", "estudo_caso", "resposta_curta"].includes(q.tipo)) {
+          let pc = gabarito.split(/[\s,;]+/).filter(w => w.trim().length > 3).map(w => w.trim().toLowerCase());
+          let rm = respA.toLowerCase(); let enc = 0; pc.forEach(p => { if(rm.includes(p)) enc++; });
+          let perc = pc.length > 0 ? (enc / pc.length) : 0;
+          if (perc >= 0.6) { notaFinal += pts; } else if (perc >= 0.25) { notaFinal += pts/2; }
+        } else {
+          if(respA.replace(/\s/g,'').toLowerCase() === gabarito.replace(/\s/g,'').toLowerCase() && !respA.includes("Não respondeu")) { notaFinal += pts; }
+        }
+      });
+
+      // ENVIA PARA A API DO GOOGLE APPS SCRIPT
+      fetch(URL_API_GOOGLE, {
+        method: 'POST',
+        // text/plain burla as travas de CORS padrão de formulários do Google
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          api: 'salvarNota', idCaderno: idCaderno, nome: document.getElementById('nomeAluno').value,
+          matricula: document.getElementById('matriculaAluno').value, nota: notaFinal, notaTotal: totalPts, respostas: respostasAluno
+        })
+      }).then(res => {
+         telaFim.innerHTML = `<div class="card-3d" style="border-top: 5px solid #28a745;"><i class="fas fa-paper-plane text-success mb-3" style="font-size: 50px;"></i><h3 class="fw-bold text-success">Respostas Enviadas para o professor!</h3><p class="text-muted mt-2">Sua Atividade Diagnóstica de Desempenho foi registrada com sucesso!</p><button class="btn btn-outline-primary mt-4 fw-bold" onclick="mostrarGabarito()"><i class="fas fa-list-check"></i> Ver Pontuação/Correção</button></div>`;
+      }).catch(err => {
+         telaFim.innerHTML = `<h3>⚠️ Erro ao enviar nota. Avise o professor.</h3>`;
+      });
+    }
+
+    function mostrarGabarito() {
+      document.getElementById('telaFim').classList.add('escondido');
+      document.getElementById('telaRelatorio').classList.remove('escondido');
+      const box = document.getElementById('areaChecklist');
+      let html = `<div class="card-3d text-center mb-4"><h3 class="fw-bold">Resultado Detalhado</h3><div class="badge bg-success fs-5 p-2 mt-2">Nota: ${notaFinal.toFixed(2)} de ${totalPts.toFixed(2)} pts</div></div>`;
+
+      provaAtual.questoes.forEach((q, i) => {
+        let respA = respostasAluno[i]; let gabarito = q.resposta; let cor = "border-danger"; let ico = "❌";
+        if(["dissertativa", "estudo_caso", "resposta_curta"].includes(q.tipo)) {
+          let pc = gabarito.split(/[\s,;]+/).filter(w => w.trim().length > 3).map(w => w.trim().toLowerCase());
+          let enc = 0; pc.forEach(p => { if(respA.toLowerCase().includes(p)) enc++; });
+          let perc = pc.length > 0 ? (enc / pc.length) : 0;
+          if(perc >= 0.6) { cor = "border-success"; ico = "✅"; } else if (perc>=0.25) { cor = "border-warning"; ico = "⚠️"; }
+        } else {
+          if(respA.replace(/\s/g,'').toLowerCase() === gabarito.replace(/\s/g,'').toLowerCase() && !respA.includes("Não respondeu")) { cor = "border-success"; ico = "✅"; }
+        }
+        html += `<div class="p-3 mb-2 border rounded bg-white ${cor}" style="border-left-width: 5px !important;"><div class="fw-bold border-bottom pb-1 mb-2">${ico} Questão ${i+1}</div><div class="row g-2 small"><div class="col-6 border-end pe-2"><span class="text-muted d-block" style="font-size:11px;">SUA RESPOSTA:</span><strong>${respA}</strong></div><div class="col-6 ps-2"><span class="text-muted d-block" style="font-size:11px;">GABARITO:</span><strong class="text-success">${gabarito}</strong></div></div></div>`;
+      });
+      box.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
