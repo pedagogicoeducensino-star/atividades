@@ -74,15 +74,14 @@
       <div class="progress mt-3 border" style="height: 10px;"><div id="barraProgresso" class="progress-bar bg-primary" style="width: 0%;"></div></div>
     </div>
     <div id="areaQuestao" class="card-3d shadow-sm" style="border-top: 4px solid #F26419; min-height: 250px;"></div>
-    
     <button id="btnAvancar" class="btn btn-secondary w-100 py-3 fw-bold shadow-sm mt-3" disabled onclick="avancarQuestao()">Aguarde...</button>
   </div>
 
   <div id="telaFim" class="container py-5 escondido text-center" style="max-width: 600px;">
     <div class="card-3d" style="border-top: 5px solid #28a745;">
       <i class="fas fa-paper-plane text-success mb-3" style="font-size: 50px;"></i>
-      <h3 class="fw-bold text-success">Respostas Enviadas para o professor!</h3>
-      <p class="text-muted mt-2">Sua Atividade Diagnóstica de Desempenho foi registrada com sucesso!</p>
+      <h3 class="fw-bold text-success">Respostas Enviadas com Sucesso!</h3>
+      <p class="text-muted mt-2">Sua Atividade Diagnóstica de Desempenho foi registrada na base do professor.</p>
       <button class="btn btn-outline-primary mt-4 fw-bold" onclick="mostrarGabarito()"><i class="fas fa-list-check"></i> Ver Pontuação/Correção</button>
     </div>
   </div>
@@ -118,15 +117,28 @@
       
       let totalSegundos = caderno.questoes.reduce((acc, q) => acc + parseInt(q.tempo || 0), 0);
       let h = Math.floor(totalSegundos / 3600); let m = Math.floor((totalSegundos % 3600) / 60); let s = totalSegundos % 60;
-      let txtTempo = ""; if(h > 0) txtTempo += `${h} horas, `; txtTempo += `${m} minutos e ${s} segundos`;
+      let txtTempo = ""; if(h > 0) txtTempo += `${h} horas, `; txtTempo += `${m} minutes e ${s} segundos`;
       document.getElementById('textoTempoTotal').innerText = txtTempo;
       respostasAluno = new Array(caderno.questoes.length).fill(null);
     }
 
-    // TRAVA DE SEGURANÇA VISUAL E REINÍCIO DE TEMPO
+    // TRAVA DE SEGURANÇA TOTAL: DETECTA SAÍDA MESMO COM TEMPO COMPLETO
     document.addEventListener("visibilitychange", function() {
-      if (document.hidden && provaRodando && tempoRestante > 0) {
-        tempoRestante = provaAtual.questoes[indiceAtual].tempo; 
+      if (document.hidden && provaRodando) {
+        // Reseta o tempo da questão para o valor original cadastrado
+        tempoRestante = parseInt(provaAtual.questoes[indiceAtual].tempo || 60); 
+        
+        // Reinicia o motor do cronômetro imediatamente
+        clearInterval(timer);
+        timer = setInterval(baterRelogio, 1000);
+        
+        // Tranca o botão de avançar na hora
+        const btn = document.getElementById('btnAvancar');
+        btn.disabled = true;
+        btn.className = "btn btn-secondary w-100 py-3 fw-bold shadow-sm mt-3"; 
+        btn.innerText = `Aguarde o término do tempo... (${tempoRestante}s)`;
+
+        // Joga a barreira vermelha na tela do espertinho
         document.getElementById('alertaViolacao').classList.remove('escondido');
       }
     });
@@ -149,7 +161,6 @@
       tempoRestante = q.tempo;
       document.getElementById('barraProgresso').style.width = `${((indiceAtual) / provaAtual.questoes.length) * 100}%`;
       
-      // Ocultado o "Questão 1 de 9"
       let html = `<div class="text-muted small fw-bold mb-3 border-bottom pb-1 text-uppercase">Análise de Conhecimento em Andamento</div>`;
       if(q.tipo === "estudo_caso") html += `<div class="p-3 bg-light border-start border-4 border-info mb-3 font-italic">${q.contexto.replace(/\n/g, '<br>')}</div>`;
       
@@ -169,29 +180,27 @@
       } else if (q.tipo !== "lacunas") { html += `<textarea class="form-control resp-multi p-3" rows="5" oninput="checarPreenchimento()" placeholder="Digite sua resposta aqui..."></textarea>`; }
       
       document.getElementById('areaQuestao').innerHTML = html;
-      checarPreenchimento(); // Trava inicial
+      checarPreenchimento(); 
       clearInterval(timer); timer = setInterval(baterRelogio, 1000);
     }
 
     function baterRelogio() {
-      if (tempoRestante > 0) tempoRestante--;
+      if (tempoRestante > 0) {
+        tempoRestante--;
+      }
       
       const relogio = document.getElementById('relogioProva');
       const btn = document.getElementById('btnAvancar');
       
-      // Quando o tempo obrigatório acaba
       if (tempoRestante <= 0) {
         tempoRestante = 0; 
         relogio.innerText = `⏳ Tempo Obrigatório Concluído`; 
         relogio.classList.remove('tempo-acabando'); 
         clearInterval(timer);
-        
-        // Os inputs NÃO são bloqueados mais, o aluno pode continuar editando
-        checarPreenchimento(); // Verifica se ele já digitou algo para liberar o botão
+        checarPreenchimento(); 
         return;
       }
       
-      // Enquanto o tempo estiver rodando, o botão fica forçadamente bloqueado
       relogio.innerText = `⏳ ${tempoRestante}s`;
       if(tempoRestante <= 10) { relogio.classList.add('tempo-acabando'); } else { relogio.classList.remove('tempo-acabando'); }
       
@@ -203,7 +212,6 @@
     function checarPreenchimento() {
       const btn = document.getElementById('btnAvancar');
       
-      // Só libera a checagem se o tempo chegou a zero
       if (tempoRestante > 0) {
          btn.disabled = true;
          return;
