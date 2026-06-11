@@ -8,184 +8,178 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root { 
-      /* Nova Paleta de Cores: Quente, Elegante e Intuitiva */
-      --primaria: #F97316; /* Laranja vibrante */
-      --primaria-hover: #EA580C;
-      --secundaria: #F59E0B; /* Amarelo/Dourado */
-      --marrom-suave: #78350F;
-      --marrom-claro: #D97706;
-      
-      --cinza-fundo: #F8FAFC;
-      --cinza-card: #FFFFFF;
-      --cinza-texto: #334155;
-      --cinza-borda: #E2E8F0;
-      
-      --sucesso: #10B981; 
-      --erro: #EF4444; 
-      
-      --fonte-padrao: 16px;
+      var(--primaria): #F97316; 
+      var(--secundaria): #F59E0B; 
+      var(--marrom-suave): #78350F;
+      var(--sucesso): #10B981; 
+      var(--erro): #EF4444; 
     }
     
-    body { background-color: var(--cinza-fundo); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--cinza-texto); font-size: var(--fonte-padrao); line-height: 1.6; user-select: none; }
+    /* DEFINIÇÃO ESTRITA DE TAMANHOS DE FONTE PEDIDOS (12px para texto, 15px para títulos) */
+    body { background-color: #F8FAFC; font-family: 'Segoe UI', system-ui, sans-serif; color: #334155; line-height: 1.5; user-select: none; font-size: 12px !important; }
     
-    h1.titulo-topo { font-size: 26px !important; font-weight: 800; color: var(--marrom-suave); letter-spacing: -0.5px;}
+    p, span, div, label, input, button, select, textarea, li { font-size: 12px !important; }
+    
+    h1, h2, h3, h4, h5, .titulo-topo { font-size: 15px !important; font-weight: 800; color: #78350F; margin-bottom: 10px;}
     
     .card-3d { 
-      background: var(--cinza-card); 
-      border-radius: 16px; 
-      padding: 30px; 
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
-      border: 1px solid var(--cinza-borda);
-      border-top: 6px solid var(--primaria); 
-      margin-bottom: 24px; 
+      background: #FFFFFF; 
+      border-radius: 12px; 
+      padding: 20px; 
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04); 
+      border: 1px solid #E2E8F0;
+      border-top: 5px solid #F97316; 
+      margin-bottom: 20px; 
     }
 
     /* Antifraude */
-    @keyframes piscarAlerta { 0% { background-color: #EF4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);} 50% { background-color: #F59E0B; box-shadow: none;} 100% { background-color: #EF4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);} }
+    @keyframes piscarAlerta { 0% { background-color: #EF4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);} 50% { background-color: #F59E0B; box-shadow: none;} 100% { background-color: #EF4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);} }
     .tempo-acabando { animation: piscarAlerta 1s infinite; color: white !important; }
 
-    /* Botões */
-    .btn { font-weight: 700; padding: 12px 24px; border-radius: 10px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;}
-    .btn-ouro { background: linear-gradient(135deg, var(--secundaria), #FBBF24); color: var(--marrom-suave); border: none; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2); }
-    .btn-ouro:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(245, 158, 11, 0.3); color: var(--marrom-suave); }
-    .btn-primario { background-color: var(--primaria); color: white; border: none; box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2); }
-    .btn-primario:hover { background-color: var(--primaria-hover); color: white; transform: translateY(-2px); }
-    
-    .btn:disabled { background-color: #E2E8F0; cursor: not-allowed; border: none; color: #94A3B8; box-shadow: none; transform: none; }
+    /* Botões Refinados */
+    .btn { font-weight: 700; padding: 10px 18px !important; border-radius: 8px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-ouro { background: linear-gradient(135deg, #F59E0B, #FBBF24); color: #78350F; border: none; box-shadow: 0 3px 8px rgba(245, 158, 11, 0.2); }
+    .btn-ouro:hover { transform: translateY(-1px); box-shadow: 0 5px 12px rgba(245, 158, 11, 0.3); color: #78350F; }
+    .btn-primario { background-color: #F97316; color: white; border: none; box-shadow: 0 3px 8px rgba(249, 115, 22, 0.2); }
+    .btn-primario:hover { background-color: #EA580C; color: white; transform: translateY(-1px); }
+    .btn:disabled { background-color: #E2E8F0 !important; cursor: not-allowed; border: none; color: #94A3B8 !important; box-shadow: none; }
     
     .escondido { display: none !important; }
     
-    /* Layout da Prova */
-    .estudo-caso-box { background-color: #FFFBEB; border-left: 5px solid var(--secundaria); padding: 20px; border-radius: 8px; margin-bottom: 20px; font-style: italic; color: var(--marrom-suave); font-size: 17px;}
-    .relogio-teste { font-size: 28px !important; font-weight: 800; color: white; background: var(--marrom-suave); padding: 15px 45px; border-radius: 50px; display: inline-block; box-shadow: 0 6px 20px rgba(0,0,0,0.15); letter-spacing: 1px;}
+    /* Layout da Prova em tamanho menor */
+    .estudo-caso-box { background-color: #FFFBEB; border-left: 4px solid #F59E0B; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-style: italic; color: #78350F; }
+    .relogio-teste { font-size: 14px !important; font-weight: 800; color: white; background: #78350F; padding: 8px 25px; border-radius: 30px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1); letter-spacing: 1px;}
     
-    .progress { background-color: #F1F5F9; border: 1px solid var(--cinza-borda); overflow: visible; height: 18px; border-radius: 12px;}
-    .progress-bar { background: linear-gradient(90deg, var(--secundaria), var(--primaria)); border-radius: 12px; transition: width 0.5s ease; }
+    .progress { background-color: #F1F5F9; border: 1px solid #E2E8F0; overflow: visible; height: 14px; border-radius: 10px;}
+    .progress-bar { background: linear-gradient(90deg, #F59E0B, #F97316); border-radius: 10px; transition: width 0.5s ease; }
 
-    /* Inputs e Controles */
-    .input-box-destaque { background-color: #F8FAFC; border: 2px solid #CBD5E1; font-weight: 700; color: var(--marrom-suave); transition: all 0.2s; border-radius: 8px; text-align: center;}
-    .input-box-destaque:focus { outline: none; border-color: var(--primaria); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15); background-color: white;}
-    .form-control { border-color: var(--cinza-borda); border-radius: 8px; padding: 12px; transition: all 0.2s;}
-    .form-control:focus { border-color: var(--primaria); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1); }
-    .form-check-input:checked { background-color: var(--primaria); border-color: var(--primaria); }
+    .input-box-destaque { background-color: #F8FAFC; border: 1px solid #CBD5E1; font-weight: 700; color: #78350F; transition: all 0.2s; border-radius: 6px; text-align: center;}
+    .input-box-destaque:focus { outline: none; border-color: #F97316; box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.15); background-color: white;}
+    .form-control { border-color: #E2E8F0; border-radius: 6px; padding: 8px 10px; transition: all 0.2s;}
+    .form-control:focus { border-color: #F97316; box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.1); }
+    .form-check-input:checked { background-color: #F97316; border-color: #F97316; }
     
-    .hover-shadow:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-color: var(--secundaria) !important; }
-    .transition { transition: all 0.2s; }
+    /* Animações Solicitadas */
+    @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+    .animacao-entrada { animation: slideUpFade 0.6s ease-out forwards; }
+    .icone-animado { animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
   </style>
 </head>
 <body oncopy="return false" oncut="return false" onpaste="return false">
 
   <div id="alertaViolacao" class="escondido" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 9999; background-color: rgba(15, 23, 42, 0.95); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-    <div style="background-color: var(--cinza-card); padding: 40px; border-radius: 16px; text-align: center; max-width: 600px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); border-top: 8px solid var(--erro);">
-      <i class="fas fa-shield-alt mb-3" style="font-size: 65px; color: var(--erro);"></i>
-      <h2 class="fw-bold mb-3 text-dark">Alerta de Segurança do Sistema</h2>
-      <div class="p-3 bg-light rounded border mb-4 text-start">
-        <p class="mb-2 text-secondary" style="font-size: 17px;"><i class="fas fa-exclamation-circle text-warning me-2"></i> Você saiu da tela da atividade ou minimizou o navegador.</p>
-        <p class="mb-0 text-secondary" style="font-size: 17px;">Lembre-se: Você só pode usar suas anotações no caderno ou sua apostila física para responder essa questão. <strong>O uso de outras guias ou aplicativos não é permitido durante o tempo cronometrado.</strong></p>
+    <div style="background-color: #FFFFFF; padding: 25px; border-radius: 12px; text-align: center; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-top: 6px solid #EF4444;">
+      <i class="fas fa-shield-alt mb-2" style="font-size: 35px; color: #EF4444;"></i>
+      <h2 class="fw-bold mb-2 text-dark">Alerta de Segurança</h2>
+      <div class="p-2 bg-light rounded border mb-3 text-start">
+        <p class="mb-1 text-secondary"><i class="fas fa-exclamation-circle text-warning me-1"></i> Você saiu da tela da atividade ou minimizou o navegador.</p>
+        <p class="mb-0 text-secondary">Lembre-se: Você só pode usar suas anotações no caderno ou sua apostila para responder essa questão. <strong>O uso de outras guias ou aplicativos não é permitido durante o tempo cronometrado.</strong></p>
       </div>
-      <button class="btn btn-primario fw-bold px-4 py-3 w-100 fs-5" onclick="document.getElementById('alertaViolacao').classList.add('escondido')">ENTENDI, VOLTAR PARA A PROVA</button>
+      <button class="btn btn-primario w-100 py-2" onclick="document.getElementById('alertaViolacao').classList.add('escondido')">ENTENDI, VOLTAR PARA A PROVA</button>
     </div>
   </div>
 
-  <div id="telaCarregando" class="container py-5 text-center mt-5">
-    <i class="fas fa-spinner fa-spin mb-3" style="font-size: 50px; color: var(--primaria);"></i>
-    <h3 class="text-secondary fw-bold">Sincronizando Atividade...</h3>
-    <p class="text-muted">Aguarde enquanto conectamos com o servidor pedagógico.</p>
+  <div id="telaCarregando" class="container py-4 text-center mt-4">
+    <i class="fas fa-spinner fa-spin mb-2" style="font-size: 30px; color: #F97316;"></i>
+    <h3 class="text-secondary">Sincronizando Atividade...</h3>
+    <p class="text-muted">Aguarde enquanto conectamos com o servidor.</p>
   </div>
 
-  <div id="telaIdentificacao" class="container py-5 escondido" style="max-width: 800px;">
-    <div class="card-3d shadow-lg" style="border-top-color: var(--secundaria);">
-      <div class="text-center mb-4">
-        <i class="fas fa-graduation-cap mb-3" style="font-size: 55px; color: var(--secundaria);"></i>
+  <div id="telaIdentificacao" class="container py-4 escondido" style="max-width: 700px;">
+    <div class="card-3d shadow-sm" style="border-top-color: #F59E0B;">
+      <div class="text-center mb-3">
+        <i class="fas fa-graduation-cap mb-2" style="font-size: 30px; color: #F59E0B;"></i>
         <h2 class="titulo-topo">Atividade Diagnóstica de Desempenho</h2>
       </div>
       
-      <p class="fs-5 text-dark fw-bold text-center">Parabéns por concluir esta etapa do seu curso!</p>
-      <p class="text-secondary text-center">Esta atividade foi elaborada para avaliar os conhecimentos desenvolvidos na sua formação. As questões abordam conteúdos das aulas para mapear seu aprendizado.</p>
+      <p class="text-dark fw-bold text-center mb-2">Parabéns por concluir esta etapa do seu curso!</p>
+      <p class="text-secondary text-center mb-3">Esta atividade foi elaborada para avaliar os conhecimentos desenvolvidos na sua formação.</p>
       
-      <div class="bg-light p-4 rounded border mt-4 mb-4">
-        <h5 class="fw-bold" style="color: var(--marrom-suave);"><i class="fas fa-clipboard-list me-2" style="color: var(--primaria);"></i> Orientações Importantes</h5>
-        <ul class="text-secondary mt-3" style="list-style-type: none; padding-left: 0;">
-          <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Leia cada questão com atenção antes de responder.</li>
-          <li class="mb-2"><i class="fas fa-check text-success me-2"></i> O tempo da atividade é rigorosamente controlado pelo sistema.</li>
-          <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Você terá no total <strong id="textoTempoTotal" class="text-dark">--</strong> para finalizar.</li>
+      <div class="bg-light p-3 rounded border mb-3">
+        <h5 class="fw-bold"><i class="fas fa-clipboard-list me-1" style="color: #F97316;"></i> Orientações Importantes</h5>
+        <ul class="text-secondary mt-2" style="list-style-type: none; padding-left: 0; margin-bottom: 0;">
+          <li class="mb-1"><i class="fas fa-check text-success me-1"></i> Leia cada questão com atenção antes de responder.</li>
+          <li class="mb-1"><i class="fas fa-check text-success me-1"></i> O tempo da atividade é rigorosamente controlado.</li>
+          <li><i class="fas fa-check text-success me-1"></i> Você terá no total <strong id="textoTempoTotal" class="text-dark">--</strong> para finalizar.</li>
         </ul>
       </div>
 
-      <div class="alert border" style="background-color: #FFFBEB; border-color: #FCD34D; color: #92400E; font-size: 15px;">
-        <p class="fw-bold mb-2"><i class="fas fa-exclamation-triangle me-2"></i> ATENÇÃO:</p>
-        <p class="mb-2">Após iniciar, o relógio não para. Se o tempo de uma questão encerrar, o sistema travará a tela e exigirá que você avance ou finalize a atividade com as respostas atuais.</p>
-        <p class="mb-0">Desejamos um excelente desempenho e muito sucesso!</p>
+      <div class="alert border" style="background-color: #FFFBEB; border-color: #FCD34D; color: #92400E; padding: 10px; margin-bottom: 20px;">
+        <p class="fw-bold mb-1"><i class="fas fa-exclamation-triangle me-1"></i> ATENÇÃO:</p>
+        <p class="mb-0">Após iniciar, o relógio não para. Se o tempo encerrar, o sistema exigirá que você avance com as respostas atuais.</p>
       </div>
-
-      <hr class="my-4">
       
-      <div class="row g-3">
+      <div class="row g-2 mb-3">
         <div class="col-md-8">
-          <label class="fw-bold mb-2 text-secondary"><i class="fas fa-user me-1"></i> Nome Completo:</label>
-          <input type="text" id="nomeAluno" class="form-control form-control-lg bg-light" placeholder="Digite seu nome completo">
+          <label class="fw-bold mb-1 text-secondary">Nome Completo:</label>
+          <input type="text" id="nomeAluno" class="form-control bg-light" placeholder="Digite seu nome completo">
         </div>
         <div class="col-md-4">
-          <label class="fw-bold mb-2 text-secondary"><i class="fas fa-id-card me-1"></i> Matrícula:</label>
-          <input type="text" id="matriculaAluno" class="form-control form-control-lg text-center bg-light" placeholder="Ex: 12345">
+          <label class="fw-bold mb-1 text-secondary">Matrícula:</label>
+          <input type="text" id="matriculaAluno" class="form-control text-center bg-light" placeholder="Ex: 12345">
         </div>
       </div>
       
-      <button id="btnIniciar" class="btn btn-primario w-100 mt-4 py-3 fs-5 shadow-sm" onclick="iniciarProva()">
-        Estou Pronto, Iniciar Atividade <i class="fas fa-arrow-right ms-2"></i>
+      <button id="btnIniciar" class="btn btn-primario w-100 py-2 shadow-sm" onclick="iniciarProva()">
+        Estou Pronto, Iniciar Atividade <i class="fas fa-arrow-right"></i>
       </button>
     </div>
   </div>
 
-  <div id="telaAtividade" class="container py-4 escondido" style="max-width: 800px;">
-    <div class="mb-4 text-center">
-      <div id="relogioProva" class="relogio-teste mx-auto mb-3">⏳ Calculando...</div>
+  <div id="telaAtividade" class="container py-3 escondido" style="max-width: 700px;">
+    <div class="mb-3 text-center">
+      <div id="relogioProva" class="relogio-teste mx-auto mb-2">⏳ Calculando...</div>
       
-      <div class="d-flex justify-content-between align-items-end mb-2 px-2">
-        <span class="fw-bold text-secondary fs-5" id="textoProgressoTeste">Questão 1 de X</span>
+      <div class="d-flex justify-content-center mb-1 px-2">
+        <span class="fw-bold text-secondary" id="textoProgressoTeste">0% da atividade concluída</span>
       </div>
       <div class="progress shadow-sm">
         <div id="barraProgresso" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
       </div>
     </div>
 
-    <div id="areaQuestao" class="card-3d shadow-lg mb-4" style="border-top-width: 6px; border-top-color: var(--secundaria); min-height: 250px;">
-      </div>
+    <div id="areaQuestao" class="card-3d shadow-sm mb-3" style="border-top-width: 5px; min-height: 150px; padding: 20px;">
+    </div>
 
-    <div class="text-center mt-4 pb-5">
-      <button id="btnAvancar" class="btn btn-secondary w-100 shadow-sm fw-bold" disabled onclick="avancarQuestao()" style="padding: 16px; font-size: 20px; border-radius: 12px;">
+    <div class="text-center mt-2 pb-4">
+      <button id="btnAvancar" class="btn btn-secondary w-100 shadow-sm" disabled onclick="avancarQuestao()" style="padding: 12px !important;">
         Aguarde...
       </button>
     </div>
   </div>
 
-  <div id="telaFim" class="container py-5 escondido" style="max-width: 650px;">
-    <div class="card-3d text-center py-5 shadow-lg border-0" style="border-top-width: 8px; border-top-color: var(--sucesso);">
-      <i class="fas fa-paper-plane mb-4" style="font-size: 70px; color: var(--sucesso);"></i>
-      <h2 class="titulo-topo text-dark mb-3">Respostas Enviadas!</h2>
-      <p class="text-secondary fs-5 mb-5" id="msgEnvio">Sua Atividade Diagnóstica foi registrada com segurança na base do professor.</p>
+  <div id="telaFimProva" class="container py-5 escondido" style="max-width: 600px;">
+    <div class="card-3d text-center py-4 shadow-sm animacao-entrada" style="border-top-width: 6px; border-top-color: #10B981;">
+      <div class="icone-animado mb-2"><i class="fas fa-check-circle" style="font-size: 45px; color: #10B981;"></i></div>
+      <h2 class="titulo-topo text-dark mb-2">Parabéns, você finalizou essa atividade!</h2>
+      <p class="text-secondary mb-4">Sua avaliação foi concluída. O que você deseja fazer agora?</p>
       
-      <button id="btnVerGabarito" class="btn btn-ouro fw-bold shadow-sm px-5 py-3 fs-5" onclick="mostrarGabarito()">
-        <i class="fas fa-chart-pie me-2"></i> Ver Meu Resultado e Correção
-      </button>
+      <div class="d-flex flex-column gap-2 mt-2 align-items-center">
+        <button class="btn btn-ouro shadow-sm w-75" onclick="mostrarGabarito()">
+          <i class="fas fa-list-check"></i> Ver pontuação/Correção
+        </button>
+        <button class="btn btn-primario shadow-sm w-75" onclick="enviarDiretoAoProfessor()">
+          <i class="fas fa-paper-plane"></i> Enviar Direto ao Professor
+        </button>
+      </div>
     </div>
   </div>
 
-  <div id="telaRelatorio" class="container py-4 escondido" style="max-width: 800px;">
+  <div id="telaProcessando" class="container py-5 escondido text-center mt-4">
+      <i class="fas fa-sync-alt fa-spin mb-3" style="font-size: 35px; color: #F59E0B;"></i>
+      <h3 class="titulo-topo text-dark">Processando...</h3>
+      <p class="text-secondary">Enviando dados ao servidor.</p>
+  </div>
+
+  <div id="telaRelatorio" class="container py-3 escondido" style="max-width: 750px;">
     <div id="areaResumoDesempenho"></div>
     
-    <h4 class="text-secondary mt-5 mb-4 fw-bold border-bottom pb-3"><i class="fas fa-list-check text-primary"></i> Revisão das Questões</h4>
-    <div id="areaChecklist" class="pb-4"></div>
-    
-    <div class="text-center mt-5 mb-5 pt-4 border-top">
-       <button class="btn btn-primario shadow-lg px-5 py-3 fw-bold" style="font-size: 18px;" onclick="alert('Atividade revisada! Você pode fechar esta aba com segurança.')">
-           <i class="fas fa-check-circle me-2"></i> Fechar Atividade
-       </button>
-    </div>
+    <h4 class="text-secondary mt-4 mb-3 fw-bold border-bottom pb-2"><i class="fas fa-check-double text-primary"></i> Revisão das Questões</h4>
+    <div id="areaChecklist" class="pb-3"></div>
   </div>
 
   <script>
-    // --- SUA API ORIGINAL MANTIDA INTACTA ---
     const URL_API_GOOGLE = "https://script.google.com/macros/s/AKfycbzEjn_R54vUXpglydH_z669p53Smxw84wt7gm9KPdQSlp5rMHovbxb7-pq7MSWv6Mfd/exec";
     
     const urlParams = new URLSearchParams(window.location.search);
@@ -194,8 +188,8 @@
     let provaAtual = null; let indiceAtual = 0; let tempoRestante = 0;
     let timer = null; let respostasAluno = []; let provaRodando = false;
     let notaFinal = 0; let totalPts = 0;
+    let dadosEnviadosComSucesso = false;
 
-    // --- FUNÇÃO PARA RENDERIZAR FOTOS E VÍDEOS ---
     function renderizarMidia(url) {
       if (!url) return '';
       try {
@@ -203,9 +197,9 @@
           let vid = "";
           if (url.includes('v=')) vid = url.split('v=')[1].split('&')[0];
           else if (url.includes('youtu.be/')) vid = url.split('youtu.be/')[1].split('?')[0];
-          if(vid) return '<div class="text-center mb-4"><iframe width="100%" height="315" src="https://www.youtube.com/embed/' + vid + '" frameborder="0" allowfullscreen class="rounded border shadow-sm"></iframe></div>';
+          if(vid) return '<div class="text-center mb-3"><iframe width="100%" height="200" src="https://www.youtube.com/embed/' + vid + '" frameborder="0" allowfullscreen class="rounded border shadow-sm"></iframe></div>';
         } else if (url.startsWith('http')) {
-          return '<div class="text-center mb-4"><img src="' + url + '" class="img-fluid rounded border shadow-sm" style="max-height: 350px; width: auto;"></div>';
+          return '<div class="text-center mb-3"><img src="' + url + '" class="img-fluid rounded border shadow-sm" style="max-height: 200px; width: auto;"></div>';
         }
       } catch(e) {}
       return '';
@@ -213,7 +207,7 @@
 
     window.onload = function() {
       if(!idCaderno) { 
-        document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-exclamation-circle mb-3 text-danger" style="font-size: 50px;"></i><h3 class="fw-bold text-dark">Link Inválido</h3><p class="text-muted">Falta o código da atividade na URL. Solicite o link correto ao professor.</p>'; 
+        document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-exclamation-circle mb-2 text-danger" style="font-size: 30px;"></i><h3 class="fw-bold text-dark">Link Inválido</h3><p class="text-muted">Falta o código da atividade na URL.</p>'; 
         return; 
       }
       
@@ -221,7 +215,7 @@
         .then(response => response.json())
         .then(data => prepararProva(data))
         .catch(error => { 
-          document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-wifi mb-3 text-danger" style="font-size: 50px;"></i><h3 class="fw-bold text-dark">Erro de Conexão</h3><p class="text-muted">Não foi possível carregar a atividade. Atualize a página e tente novamente.</p>'; 
+          document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-wifi mb-2 text-danger" style="font-size: 30px;"></i><h3 class="fw-bold text-dark">Erro de Conexão</h3><p class="text-muted">Não foi possível carregar a atividade. Atualize a página.</p>'; 
         });
     };
 
@@ -229,7 +223,7 @@
       document.getElementById('telaCarregando').classList.add('escondido');
       if(!caderno || !caderno.questoes) { 
         document.getElementById('telaCarregando').classList.remove('escondido');
-        document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-box-open mb-3 text-warning" style="font-size: 50px;"></i><h3 class="fw-bold text-dark">Atividade Indisponível</h3><p class="text-muted">Este caderno de questões foi removido ou não existe.</p>'; 
+        document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-box-open mb-2 text-warning" style="font-size: 30px;"></i><h3 class="fw-bold text-dark">Atividade Indisponível</h3><p class="text-muted">Este caderno foi removido ou não existe.</p>'; 
         return; 
       }
       
@@ -237,38 +231,30 @@
       document.getElementById('telaIdentificacao').classList.remove('escondido');
       
       let totalSegundos = caderno.questoes.reduce((acc, q) => acc + parseInt(q.tempo || 0), 0);
-      let h = Math.floor(totalSegundos / 3600); let m = Math.floor((totalSegundos % 3600) / 60); let s = totalSegundos % 60;
-      let txtTempo = ""; if(h > 0) txtTempo += `${h} horas, `; txtTempo += `${m} min e ${s} seg`;
-      document.getElementById('textoTempoTotal').innerText = txtTempo;
+      let m = Math.floor(totalSegundos / 60); let s = totalSegundos % 60;
+      document.getElementById('textoTempoTotal').innerText = `${m} min e ${s} seg`;
       respostasAluno = new Array(caderno.questoes.length).fill(null);
     }
 
-    // =======================================================
-    // MOTOR ANTI-FRAUDE (SEU CÓDIGO MANTIDO E ADAPTADO AO CSS)
-    // =======================================================
     function punirInfracao() {
       if (!provaRodando) return;
-      
       tempoRestante = parseInt(provaAtual.questoes[indiceAtual].tempo || 60); 
-      clearInterval(timer);
-      timer = setInterval(baterRelogio, 1000);
+      clearInterval(timer); timer = setInterval(baterRelogio, 1000);
       
       const btn = document.getElementById('btnAvancar');
-      btn.disabled = true;
-      btn.className = "btn btn-secondary w-100 shadow-sm fw-bold"; 
-      btn.innerText = `Aguarde o término do tempo... (${tempoRestante}s)`;
+      btn.disabled = true; btn.className = "btn btn-secondary w-100 shadow-sm"; 
+      btn.innerText = `Aguarde o tempo... (${tempoRestante}s)`;
 
       document.getElementById('alertaViolacao').classList.remove('escondido');
     }
 
     document.addEventListener("visibilitychange", function() { if (document.hidden) punirInfracao(); });
     window.addEventListener("blur", function() { punirInfracao(); });
-    // =======================================================
 
     function iniciarProva() {
       const nome = document.getElementById('nomeAluno').value.trim();
       const mat = document.getElementById('matriculaAluno').value.trim();
-      if(!nome || !mat) { alert("⚠️ Por favor, preencha seu Nome e Matrícula para iniciar."); return; }
+      if(!nome || !mat) { alert("⚠️ Preencha seu Nome e Matrícula."); return; }
       
       document.getElementById('telaIdentificacao').classList.add('escondido');
       document.getElementById('telaAtividade').classList.remove('escondido');
@@ -277,39 +263,46 @@
     }
 
     function carregarQuestao() {
-      if(indiceAtual >= provaAtual.questoes.length) { finalizarEEnviar(); return; }
+      if(indiceAtual >= provaAtual.questoes.length) { 
+          // Ao invés de mandar pro servidor agora, mostramos a tela de "Parabéns"
+          document.getElementById('telaAtividade').classList.add('escondido');
+          document.getElementById('telaFimProva').classList.remove('escondido');
+          provaRodando = false; clearInterval(timer);
+          processarRespostasSilenciosamente(); 
+          return; 
+      }
       
       const q = provaAtual.questoes[indiceAtual];
       tempoRestante = q.tempo;
       
-      let numAtual = indiceAtual + 1;
       let totalQ = provaAtual.questoes.length;
-      document.getElementById('textoProgressoTeste').innerText = `Questão ${numAtual} de ${totalQ}`;
-      document.getElementById('barraProgresso').style.width = `${((indiceAtual) / totalQ) * 100}%`;
+      let pct = Math.round((indiceAtual / totalQ) * 100);
       
-      // CONSTRUÇÃO DO HTML DA QUESTÃO COM O NOVO LAYOUT
-      let html = `<div class="text-secondary small fw-bold mb-4 border-bottom pb-2 text-uppercase tracking-wide"><i class="fas fa-clipboard-question text-primary me-2"></i> ${provaAtual.titulo || "Avaliação em Andamento"}</div>`;
+      document.getElementById('textoProgressoTeste').innerText = `${pct}% da atividade concluída`;
+      document.getElementById('barraProgresso').style.width = `${pct}%`;
+      
+      let html = `<div class="text-secondary fw-bold mb-3 border-bottom pb-1 text-uppercase"><i class="fas fa-clipboard-list text-primary me-1"></i> ${provaAtual.titulo || "Avaliação"}</div>`;
       
       if(q.midia) html += renderizarMidia(q.midia);
       if(q.tipo === "estudo_caso") html += `<div class="estudo-caso-box shadow-sm">${(q.contexto || "").replace(/\n/g, '<br>')}</div>`;
       
       if(q.tipo === "lacunas") {
-        let enunciadoFormatado = (q.enunciado || "").replace(/_{3,}/g, '<input type="text" class="form-control d-inline-block resp-multi input-box-destaque mx-1 shadow-sm" style="width:110px; height:40px; font-size: 16px;" oninput="checarPreenchimento()">');
-        html += `<p class="fw-bold mb-4 fs-5 text-dark">${enunciadoFormatado}</p>`;
+        let enunciadoFormatado = (q.enunciado || "").replace(/_{3,}/g, '<input type="text" class="form-control d-inline-block resp-multi input-box-destaque mx-1" style="width:80px; height:25px;" oninput="checarPreenchimento()">');
+        html += `<p class="fw-bold mb-3 text-dark">${enunciadoFormatado}</p>`;
       } else if(q.tipo !== "assercao_razao") {
-        html += `<p class="fw-bold mb-4 fs-5 text-dark">${q.enunciado || ""}</p>`;
+        html += `<p class="fw-bold mb-3 text-dark">${q.enunciado || ""}</p>`;
       }
 
       if (q.tipo === "multipla_escolha") {
         ['A','B','C','D','E'].forEach(l => { 
             if(q.opcoes && q.opcoes[l]) {
-                html += `<div class="form-check mb-3 p-3 bg-light rounded border hover-shadow transition"><input class="form-check-input ms-0 me-3" type="radio" name="resp" value="${l}" id="opt_${l}" onclick="checarPreenchimento()"><label class="form-check-label text-dark fs-6 w-100" for="opt_${l}" style="cursor:pointer;"><strong>${l})</strong> ${q.opcoes[l]}</label></div>`; 
+                html += `<div class="form-check mb-2 p-2 bg-light rounded border hover-shadow transition"><input class="form-check-input ms-0 me-2" type="radio" name="resp" value="${l}" id="opt_${l}" onclick="checarPreenchimento()"><label class="form-check-label text-dark w-100" for="opt_${l}" style="cursor:pointer;"><strong>${l})</strong> ${q.opcoes[l]}</label></div>`; 
             }
         });
       } else if (q.tipo === "certo_errado") {
-        html += `<div class="d-flex gap-4 mb-3"><div class="form-check p-3 bg-light rounded border w-50 text-center hover-shadow transition"><input class="form-check-input float-none ms-0 me-2" type="radio" name="resp" value="Certo" id="opt_C" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-success fs-5 w-100" for="opt_C" style="cursor:pointer;">CERTO</label></div><div class="form-check p-3 bg-light rounded border w-50 text-center hover-shadow transition"><input class="form-check-input float-none ms-0 me-2" type="radio" name="resp" value="Errado" id="opt_E" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-danger fs-5 w-100" for="opt_E" style="cursor:pointer;">ERRADO</label></div></div>`;
+        html += `<div class="d-flex gap-3 mb-2"><div class="form-check p-2 bg-light rounded border w-50 text-center hover-shadow transition"><input class="form-check-input float-none ms-0 me-1" type="radio" name="resp" value="Certo" id="opt_C" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-success w-100" for="opt_C" style="cursor:pointer;">CERTO</label></div><div class="form-check p-2 bg-light rounded border w-50 text-center hover-shadow transition"><input class="form-check-input float-none ms-0 me-1" type="radio" name="resp" value="Errado" id="opt_E" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-danger w-100" for="opt_E" style="cursor:pointer;">ERRADO</label></div></div>`;
       } else if (q.tipo === "assercao_razao") {
-        html += `<div class="bg-light p-4 rounded mb-4 border shadow-sm"><p class="mb-2 fw-bold fs-6">I. ${q.assercao}</p><div class="text-danger small fw-bold my-3 text-center"><i class="fas fa-link"></i> PORQUE</div><p class="mb-0 fw-bold fs-6">II. ${q.razao}</p></div>`;
+        html += `<div class="bg-light p-3 rounded mb-3 border shadow-sm"><p class="mb-1 fw-bold">I. ${q.assercao}</p><div class="text-danger fw-bold my-2 text-center"><i class="fas fa-link"></i> PORQUE</div><p class="mb-0 fw-bold">II. ${q.razao}</p></div>`;
         let assOpcoes = [
             {v: "A", t: "A) A I é verdadeira, a II é verdadeira e justifica a I."},
             {v: "B", t: "B) A I é verdadeira, a II é verdadeira, mas NÃO justifica a I."},
@@ -319,24 +312,24 @@
         ];
         html += `<div>`;
         assOpcoes.forEach(op => {
-            html += `<div class="form-check mb-2 p-3 rounded bg-light hover-shadow border transition"><input class="form-check-input ms-1 me-3" type="radio" name="resp" value="${op.v}" id="ass_${op.v}" onclick="checarPreenchimento()"> <label class="form-check-label w-100" for="ass_${op.v}" style="cursor:pointer;">${op.t}</label></div>`;
+            html += `<div class="form-check mb-1 p-2 rounded bg-light hover-shadow border transition"><input class="form-check-input ms-1 me-2" type="radio" name="resp" value="${op.v}" id="ass_${op.v}" onclick="checarPreenchimento()"> <label class="form-check-label w-100" for="ass_${op.v}" style="cursor:pointer;">${op.t}</label></div>`;
         });
         html += `</div>`;
       } else if (q.tipo === "associacao") {
-        html += `<div class="row g-4"><div class="col-sm-5 border-end pe-4">`;
-        q.pares.forEach((p, idx) => { html += `<div class="mb-3 text-dark p-2 bg-light rounded border shadow-sm"><strong>${idx+1}.</strong> ${p.a}</div>`; });
-        html += `</div><div class="col-sm-7 ps-4">`;
+        html += `<div class="row g-2"><div class="col-sm-5 border-end pe-2">`;
+        q.pares.forEach((p, idx) => { html += `<div class="mb-2 text-dark p-1 bg-light rounded border"><strong>${idx+1}.</strong> ${p.a}</div>`; });
+        html += `</div><div class="col-sm-7 ps-2">`;
         q.pares.forEach((p, idx) => { 
-          let displayItem = (q.b_is_img && p.b.startsWith('http')) ? `<img src="${p.b}" class="rounded border shadow-sm" style="max-height: 65px; max-width: 150px;">` : `<span class="fw-bold">${p.b}</span>`;
-          html += `<div class="d-flex align-items-center mb-3 bg-white p-2 rounded border shadow-sm transition hover-shadow"><input type="text" class="form-control text-center resp-multi input-box-destaque me-3 p-0" style="width:45px; height:45px; font-size: 18px;" oninput="checarPreenchimento()"> ${displayItem}</div>`; 
+          let displayItem = (q.b_is_img && p.b.startsWith('http')) ? `<img src="${p.b}" class="rounded border shadow-sm" style="max-height: 40px; max-width: 100px;">` : `<span class="fw-bold">${p.b}</span>`;
+          html += `<div class="d-flex align-items-center mb-2 bg-white p-1 rounded border shadow-sm transition hover-shadow"><input type="text" class="form-control text-center resp-multi input-box-destaque me-2 p-0" style="width:35px; height:30px;" oninput="checarPreenchimento()"> ${displayItem}</div>`; 
         });
         html += `</div></div>`;
       } else if (q.tipo === "ordenacao") {
-        q.lista.forEach((item, idx) => { html += `<div class="d-flex align-items-center mb-3 bg-light p-3 rounded border shadow-sm hover-shadow transition"><div style="width: 85%;" class="ps-2 fw-bold text-dark fs-6">${item}</div><div style="width: 15%;" class="text-end pe-2"><input type="text" class="form-control text-center resp-multi input-box-destaque d-inline p-0 shadow-sm" style="width:55px; height:45px; font-size: 18px;" oninput="checarPreenchimento()"></div></div>`; });
+        q.lista.forEach((item, idx) => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded border shadow-sm hover-shadow transition"><div style="width: 85%;" class="ps-1 fw-bold text-dark">${item}</div><div style="width: 15%;" class="text-end pe-1"><input type="text" class="form-control text-center resp-multi input-box-destaque d-inline p-0 shadow-sm" style="width:35px; height:30px;" oninput="checarPreenchimento()"></div></div>`; });
       } else if (q.tipo === "verdadeiro_falso_mult") {
-        q.lista.forEach(item => { html += `<div class="d-flex align-items-center mb-3 bg-light p-3 rounded border shadow-sm hover-shadow transition"><input type="text" class="form-control text-center resp-multi input-box-destaque me-4 p-0 shadow-sm text-uppercase" style="width:50px; height:45px; font-weight: 800; font-size: 18px;" maxlength="1" oninput="checarPreenchimento()"><span class="fw-bold text-dark fs-6">${item}</span></div>`; });
+        q.lista.forEach(item => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded border shadow-sm hover-shadow transition"><input type="text" class="form-control text-center resp-multi input-box-destaque me-2 p-0 shadow-sm text-uppercase" style="width:35px; height:30px; font-weight: 800;" maxlength="1" oninput="checarPreenchimento()"><span class="fw-bold text-dark">${item}</span></div>`; });
       } else if (q.tipo !== "lacunas") {
-        html += `<textarea class="form-control resp-multi p-3 input-box-destaque shadow-sm" rows="5" placeholder="Digite sua resposta detalhada aqui..." oninput="checarPreenchimento()" style="font-size: 16px; text-align: left;"></textarea>`;
+        html += `<textarea class="form-control resp-multi p-2 input-box-destaque shadow-sm" rows="4" placeholder="Digite sua resposta..." oninput="checarPreenchimento()"></textarea>`;
       }
       
       document.getElementById('areaQuestao').innerHTML = html;
@@ -346,13 +339,12 @@
 
     function baterRelogio() {
       if (tempoRestante > 0) tempoRestante--;
-      
       const relogio = document.getElementById('relogioProva');
       const btn = document.getElementById('btnAvancar');
       
       if (tempoRestante <= 0) {
         tempoRestante = 0; 
-        relogio.innerHTML = `<i class="fas fa-lock"></i> Tempo Esgotado`; 
+        relogio.innerHTML = `<i class="fas fa-lock"></i> Esgotado`; 
         relogio.classList.remove('tempo-acabando'); 
         clearInterval(timer);
         checarPreenchimento(); 
@@ -362,9 +354,8 @@
       relogio.innerHTML = `<i class="fas fa-stopwatch"></i> ${tempoRestante}s`;
       if(tempoRestante <= 10) { relogio.classList.add('tempo-acabando'); } else { relogio.classList.remove('tempo-acabando'); }
       
-      btn.disabled = true; 
-      btn.className = "btn btn-secondary w-100 shadow-sm fw-bold"; 
-      btn.innerHTML = `Aguarde o tempo mínimo... <span class="badge bg-white text-secondary ms-2">${tempoRestante}s</span>`;
+      btn.disabled = true; btn.className = "btn btn-secondary w-100 shadow-sm"; 
+      btn.innerHTML = `Aguarde... <span class="badge bg-white text-secondary ms-1">${tempoRestante}s</span>`;
     }
 
     function checarPreenchimento() {
@@ -383,13 +374,11 @@
       }
 
       if(respondeu) {
-        btn.disabled = false; 
-        btn.className = "btn btn-ouro w-100 shadow-lg text-dark";
-        btn.innerHTML = (indiceAtual === provaAtual.questoes.length - 1) ? 'Finalizar e Enviar Atividade <i class="fas fa-flag-checkered ms-2"></i>' : 'Confirmar e Ir para a Próxima <i class="fas fa-arrow-right ms-2"></i>';
+        btn.disabled = false; btn.className = "btn btn-ouro w-100 shadow-sm text-dark";
+        btn.innerHTML = (indiceAtual === provaAtual.questoes.length - 1) ? 'Concluir' : 'Confirmar e Avançar';
       } else {
-        btn.disabled = true; 
-        btn.className = "btn btn-secondary w-100 shadow-sm fw-bold"; 
-        btn.innerHTML = `<i class="fas fa-pen me-2"></i> Preencha a resposta para liberar o botão`;
+        btn.disabled = true; btn.className = "btn btn-secondary w-100 shadow-sm"; 
+        btn.innerHTML = `<i class="fas fa-pen me-1"></i> Preencha para avançar`;
       }
     }
 
@@ -406,22 +395,14 @@
       
       if (indiceAtual === provaAtual.questoes.length - 1) {
           document.getElementById('barraProgresso').style.width = `100%`;
+          document.getElementById('textoProgressoTeste').innerText = `100% da atividade concluída`;
       }
       
       indiceAtual++; carregarQuestao();
     }
-    
-    // --- O SEU CÓDIGO ORIGINAL DE ENVIO AO GOOGLE ---
-    function finalizarEEnviar() {
-      provaRodando = false; clearInterval(timer);
-      document.getElementById('telaAtividade').classList.add('escondido');
-      
-      const telaFim = document.getElementById('telaFim');
-      telaFim.classList.remove('escondido');
-      
-      // Animação de envio
-      telaFim.innerHTML = `<div class="card-3d text-center py-5 shadow-lg border-0" style="border-top-width: 8px; border-top-color: var(--secundaria);"><i class="fas fa-sync-alt fa-spin mb-4" style="font-size: 60px; color: var(--secundaria);"></i><h2 class="titulo-topo text-dark">Processando...</h2><p class="text-secondary fs-5 mt-2">Calculando sua nota e enviando respostas ao servidor educacional.</p></div>`;
 
+    // Função silenciosa que calcula as notas e envia via API antes do aluno decidir o botão
+    function processarRespostasSilenciosamente() {
       provaAtual.questoes.forEach((q, i) => {
         let respA = respostasAluno[i] || ""; let gabarito = q.resposta || ""; let pts = parseFloat(q.pontos) || 0;
         totalPts += pts;
@@ -429,7 +410,7 @@
           let pc = gabarito.split(/[\s,;]+/).filter(w => w.trim().length > 3).map(w => w.trim().toLowerCase());
           let rm = respA.toLowerCase(); let enc = 0; pc.forEach(p => { if(rm.includes(p)) enc++; });
           let perc = pc.length > 0 ? (enc / pc.length) : 0;
-          if (perc >= 0.6) { notaFinal += pts; } else if (perc >= 0.25) { notaFinal += pts/2; }
+          if (perc >= 0.8) { notaFinal += pts; } else if (perc >= 0.25) { notaFinal += pts/2; }
         } else {
           if(respA.replace(/\s/g,'').toLowerCase() === gabarito.replace(/\s/g,'').toLowerCase()) { notaFinal += pts; }
         }
@@ -442,65 +423,71 @@
           api: 'salvarNota', idCaderno: idCaderno, nome: document.getElementById('nomeAluno').value,
           matricula: document.getElementById('matriculaAluno').value, nota: notaFinal, notaTotal: totalPts, respostas: respostasAluno
         })
-      }).then(res => {
-         telaFim.innerHTML = `<div class="card-3d text-center py-5 shadow-lg border-0" style="border-top-width: 8px; border-top-color: var(--sucesso);"><i class="fas fa-check-circle mb-4" style="font-size: 70px; color: var(--sucesso);"></i><h2 class="titulo-topo text-dark mb-3">Atividade Concluída!</h2><p class="text-secondary fs-5 mb-5">Suas respostas foram salvas e sua pontuação foi registrada com sucesso.</p><button class="btn btn-ouro fw-bold shadow-sm px-5 py-3 fs-5" onclick="mostrarGabarito()"><i class="fas fa-chart-pie me-2"></i> Ver Resultado e Correção</button></div>`;
-      }).catch(err => {
-         telaFim.innerHTML = `<div class="card-3d text-center py-5 shadow-lg border-0" style="border-top-width: 8px; border-top-color: var(--erro);"><i class="fas fa-exclamation-triangle mb-4" style="font-size: 70px; color: var(--erro);"></i><h2 class="titulo-topo text-dark mb-3">Atenção</h2><p class="text-secondary fs-5 mb-5">Houve uma instabilidade na internet e a nota não foi salva. Por favor, tire um print ou foto e avise seu professor.</p><button class="btn btn-ouro fw-bold shadow-sm px-5 py-3 fs-5" onclick="mostrarGabarito()"><i class="fas fa-list me-2"></i> Ver Respostas Salvas</button></div>`;
-      });
+      }).then(res => { dadosEnviadosComSucesso = true; }).catch(err => { dadosEnviadosComSucesso = false; });
     }
 
-    // =======================================================
-    // GABARITO (CARDS E PORCENTAGEM) SEM CRITÉRIOS A MOSTRA
-    // =======================================================
+    // Ação do Botão: "Enviar Direto ao Professor"
+    function enviarDiretoAoProfessor() {
+        alert("Atividade enviada com sucesso ao seu professor! Você já pode fechar esta aba.");
+    }
+
+    // Ação do Botão: "Ver pontuação/Correção"
     function mostrarGabarito() {
-      document.getElementById('telaFim').classList.add('escondido');
+      document.getElementById('telaFimProva').classList.add('escondido');
       document.getElementById('telaRelatorio').classList.remove('escondido');
       
       let htmlGabarito = "";
+      let somaAcertosParaPorcentagem = 0;
+      let totalQuestoes = provaAtual.questoes.length;
       
       provaAtual.questoes.forEach((q, i) => {
         let respA = respostasAluno[i] || ""; 
         let gabarito = q.resposta || ""; 
-        let pts = parseFloat(q.pontos) || 0;
-        let corStatusHex = ""; let statusTexto = ""; let icone = "";
+        let corStatusHex = ""; let statusTexto = ""; let icone = ""; let acertoFracao = 0;
 
         if(["dissertativa", "estudo_caso", "resposta_curta"].includes(q.tipo)) {
           let pc = gabarito.split(/[\s,;]+/).filter(w => w.trim().length > 3).map(w => w.trim().toLowerCase());
           let enc = 0; pc.forEach(p => { if(respA.toLowerCase().includes(p)) enc++; });
           let perc = pc.length > 0 ? (enc / pc.length) : 0;
           
-          if(perc >= 0.6) { corStatusHex = "var(--sucesso)"; statusTexto = "Excelente"; icone = "<i class='fas fa-star text-white'></i>"; } 
-          else if (perc >= 0.25) { corStatusHex = "var(--secundaria)"; statusTexto = "Satisfatório Parcial"; icone = "<i class='fas fa-exclamation-triangle text-dark'></i>"; }
-          else { corStatusHex = "var(--erro)"; statusTexto = "Insatisfatório"; icone = "<i class='fas fa-times text-white'></i>"; }
+          if(perc >= 0.8) { acertoFracao = 1; corStatusHex = "#10B981"; statusTexto = "Excelente"; icone = "<i class='fas fa-star text-white'></i>"; } 
+          else if (perc >= 0.5) { acertoFracao = 0.75; corStatusHex = "#0EA5E9"; statusTexto = "Satisfatório"; icone = "<i class='fas fa-check text-white'></i>"; }
+          else if (perc >= 0.25) { acertoFracao = 0.40; corStatusHex = "#F59E0B"; statusTexto = "Parcialmente Satisfatório"; icone = "<i class='fas fa-exclamation-triangle text-dark'></i>"; }
+          else { acertoFracao = 0; corStatusHex = "#EF4444"; statusTexto = "Insatisfatório"; icone = "<i class='fas fa-times text-white'></i>"; }
         } else {
-          if(respA.replace(/\s/g,'').toLowerCase() === gabarito.replace(/\s/g,'').toLowerCase() && respA !== "") { 
-              corStatusHex = "var(--sucesso)"; statusTexto = "Correto"; icone = "<i class='fas fa-check-circle text-white'></i>"; 
+          let mapRetro = {"A":"I", "B":"II", "C":"III", "D":"IV", "E":"V"};
+          if(q.tipo === 'assercao_razao' && mapRetro[gabarito]) gabarito = mapRetro[gabarito];
+
+          let aLimpo = respA.replace(/\s/g,'').toLowerCase(); let gLimpo = gabarito.replace(/\s/g,'').toLowerCase();
+          if(aLimpo === gLimpo && aLimpo !== "") { 
+              acertoFracao = 1; corStatusHex = "#10B981"; statusTexto = "Correto"; icone = "<i class='fas fa-check-circle text-white'></i>"; 
           } else { 
-              corStatusHex = "var(--erro)"; statusTexto = "Incorreto"; icone = "<i class='fas fa-times-circle text-white'></i>"; 
+              acertoFracao = 0; corStatusHex = "#EF4444"; statusTexto = "Incorreto"; icone = "<i class='fas fa-times-circle text-white'></i>"; 
           }
         }
-
-        let textColorForBadge = corStatusHex === "var(--secundaria)" ? "#000" : "#fff";
-        let enunciadoQuestao = q.enunciado || "Análise de Conhecimento " + (i+1);
+        
+        somaAcertosParaPorcentagem += acertoFracao;
+        let textColorForBadge = corStatusHex === "#F59E0B" ? "#000" : "#fff";
+        let enunciadoQuestao = q.enunciado || "Questão " + (i+1);
 
         htmlGabarito += `
-          <div class="card mb-4 shadow border-0" style="border-left: 6px solid ${corStatusHex} !important; border-radius: 12px; overflow: hidden;">
-             <div class="card-header py-3" style="background-color: var(--cinza-fundo); border-bottom: 1px solid var(--cinza-borda);">
-                 <span class="fw-bold fs-5" style="color: var(--cinza-texto);"><i class="fas fa-layer-group me-2" style="color: ${corStatusHex};"></i> Questão ${i+1}: <span class="text-secondary fw-normal fs-6">${enunciadoQuestao.substring(0,80)}...</span></span>
+          <div class="card mb-3 shadow-sm border-0" style="border-left: 5px solid ${corStatusHex} !important; border-radius: 8px; overflow: hidden;">
+             <div class="card-header py-2" style="background-color: #F8FAFC; border-bottom: 1px solid #E2E8F0;">
+                 <span class="fw-bold" style="color: #334155;"><i class="fas fa-layer-group me-1" style="color: ${corStatusHex};"></i> Questão ${i+1}: <span class="text-secondary fw-normal">${enunciadoQuestao.substring(0,60)}...</span></span>
              </div>
-             <div class="card-body p-4">
-                 <div class="row g-4">
+             <div class="card-body p-3">
+                 <div class="row g-3">
                      <div class="col-md-12">
-                         <div class="text-secondary small fw-bold mb-2 text-uppercase tracking-wide"><i class="fas fa-user-edit me-1"></i> Sua Resposta</div>
-                         <div class="p-3 bg-light border rounded text-dark shadow-sm" style="min-height: 50px; font-size: 16px;">${respA || '<span class="text-muted fst-italic"><i class="fas fa-minus me-1"></i> Deixada em branco</span>'}</div>
+                         <div class="text-secondary fw-bold mb-1 text-uppercase"><i class="fas fa-user-edit me-1"></i> Sua Resposta</div>
+                         <div class="p-2 bg-light border rounded text-dark" style="min-height: 35px;">${respA || '<span class="text-muted fst-italic"><i class="fas fa-minus me-1"></i> Deixada em branco</span>'}</div>
                      </div>
-                     <div class="col-md-12 mt-3">
-                         <div class="small fw-bold mb-2 text-uppercase tracking-wide" style="color: var(--sucesso);"><i class="fas fa-book-open me-1"></i> Resposta da Apostila</div>
-                         <div class="p-3 border rounded text-dark shadow-sm" style="min-height: 50px; background-color: #F0FDF4; border-color: #BBF7D0 !important; font-size: 16px;">${gabarito}</div>
+                     <div class="col-md-12 mt-2">
+                         <div class="fw-bold mb-1 text-uppercase" style="color: #10B981;"><i class="fas fa-book-open me-1"></i> Resposta Esperada</div>
+                         <div class="p-2 border rounded text-dark" style="min-height: 35px; background-color: #F0FDF4; border-color: #BBF7D0 !important;">${gabarito}</div>
                      </div>
                  </div>
-                 <div class="mt-4 text-end">
-                     <span class="badge px-4 py-2 shadow-sm" style="background-color: ${corStatusHex}; color: ${textColorForBadge}; font-size: 16px; border-radius: 50px;">
+                 <div class="mt-3 text-end">
+                     <span class="badge px-3 py-1 shadow-sm" style="background-color: ${corStatusHex}; color: ${textColorForBadge}; border-radius: 20px;">
                          ${icone} ${statusTexto}
                      </span>
                  </div>
@@ -511,23 +498,42 @@
       
       document.getElementById('areaChecklist').innerHTML = htmlGabarito;
 
-      let aproveitamento = totalPts > 0 ? Math.round((notaFinal / totalPts) * 100) : 0;
+      let aproveitamento = totalQuestoes > 0 ? (somaAcertosParaPorcentagem / totalQuestoes) * 100 : 0;
+      let pctFormatado = aproveitamento % 1 === 0 ? aproveitamento : aproveitamento.toFixed(2);
+      
       let txtCriterio = ""; let descCriterio = ""; let corAproveitamento = "";
 
-      if (aproveitamento >= 80) { txtCriterio = "Excelente"; descCriterio = "Desempenho altíssimo! Respostas claras e baseadas no conteúdo."; corAproveitamento = "sucesso"; } 
-      else if (aproveitamento >= 50) { txtCriterio = "Bom Desempenho"; descCriterio = "Atendeu à maior parte da avaliação demonstrando bom nível de conhecimento."; corAproveitamento = "primaria"; } 
-      else if (aproveitamento >= 25) { txtCriterio = "Revisão Necessária"; descCriterio = "Conhecimento parcial da matéria. Recomendamos revisar o material didático."; corAproveitamento = "secundaria"; } 
-      else { txtCriterio = "Atenção Pedagógica"; descCriterio = "Nível de assimilação abaixo do esperado. Converse com seu instrutor(a) para sanar dúvidas."; corAproveitamento = "erro"; }
+      // Critérios restritos e copiados do seu texto base
+      if (aproveitamento >= 80) { 
+          txtCriterio = "Excelente"; 
+          descCriterio = "Atendeu integralmente à proposta, apresentando resposta completa, clara e correta."; 
+          corAproveitamento = "sucesso"; 
+      } 
+      else if (aproveitamento >= 50) { 
+          txtCriterio = "Satisfatório"; 
+          descCriterio = "Atendeu à maior parte da proposta, apresentando pequenos desvios ou omissões que não comprometem significativamente a resposta."; 
+          corAproveitamento = "primaria"; 
+      } 
+      else if (aproveitamento >= 25) { 
+          txtCriterio = "Parcialmente Satisfatório"; 
+          descCriterio = "Atendeu parcialmente à proposta, demonstrando compreensão limitada do conteúdo ou deixando de contemplar aspectos importantes."; 
+          corAproveitamento = "secundaria"; 
+      } 
+      else { 
+          txtCriterio = "Insatisfatório"; 
+          descCriterio = "Não atendeu aos critérios mínimos esperados ou apresentou resposta incorreta, incompleta ou incompatível com o tema."; 
+          corAproveitamento = "erro"; 
+      }
 
       document.getElementById('areaResumoDesempenho').innerHTML = `
-        <div class="card-3d text-center py-5 px-3 shadow-lg" style="border-top-width: 8px !important; border-top-color: var(--${corAproveitamento}); background-color: #ffffff;">
-            <h5 class="text-secondary small fw-bold mb-3 text-uppercase tracking-wide"><i class="fas fa-chart-pie me-2"></i> Rendimento Final</h5>
-            <div class="display-1 fw-bold mb-0" style="color: var(--${corAproveitamento}); font-size: 85px;">${aproveitamento}%</div>
-            <div class="badge mt-2 mb-4 px-3 py-2 fs-6 text-dark bg-light border shadow-sm"><i class="fas fa-star text-warning"></i> Pontuação Bruta: ${notaFinal.toFixed(1)} / ${totalPts.toFixed(1)} pts</div>
+        <div class="card-3d text-center py-4 px-2 shadow-sm" style="border-top-width: 6px !important; border-top-color: var(--${corAproveitamento}); background-color: #ffffff;">
+            <h5 class="text-secondary fw-bold mb-2 text-uppercase"><i class="fas fa-chart-pie me-1"></i> Rendimento Final</h5>
+            <div class="fw-bold mb-0" style="color: var(--${corAproveitamento}); font-size: 55px !important;">${pctFormatado}%</div>
+            <div class="text-muted fw-bold mb-3">/ 100%</div>
             
-            <div class="mt-2 p-4 rounded text-center mx-auto shadow-sm" style="max-width: 650px; background-color: var(--cinza-fundo); border: 1px solid var(--cinza-borda); border-bottom: 4px solid var(--${corAproveitamento});">
+            <div class="mt-2 p-3 rounded text-center mx-auto shadow-sm" style="max-width: 600px; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-bottom: 4px solid var(--${corAproveitamento});">
                 <h4 class="text-dark fw-bold mb-2">${txtCriterio}</h4>
-                <p class="text-secondary mb-0" style="font-size: 16px; line-height: 1.6;">${descCriterio}</p>
+                <p class="text-secondary mb-0">${descCriterio}</p>
             </div>
         </div>
       `;
