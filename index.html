@@ -8,130 +8,142 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root { 
-      var(--primaria): #F97316; 
-      var(--secundaria): #F59E0B; 
-      var(--marrom-suave): #78350F;
-      var(--sucesso): #10B981; 
-      var(--erro): #EF4444; 
+      --primaria: #F97316; 
+      --primaria-hover: #EA580C;
+      --secundaria: #F59E0B; 
+      --marrom-suave: #78350F;
+      --marrom-claro: #D97706;
+      --cinza-fundo: #F8FAFC;
+      --cinza-card: #FFFFFF;
+      --cinza-texto: #334155;
+      --cinza-borda: #E2E8F0;
+      --sucesso: #10B981; 
+      --erro: #EF4444; 
     }
     
-    /* DEFINIÇÃO ESTRITA DE TAMANHOS DE FONTE PEDIDOS (12px para texto, 15px para títulos) */
-    body { background-color: #F8FAFC; font-family: 'Segoe UI', system-ui, sans-serif; color: #334155; line-height: 1.5; user-select: none; font-size: 12px !important; }
+    /* CONFIGURAÇÃO ESTRITA DE TAMANHOS DE FONTE PEDIDOS (20px para textos/questões, 30px para títulos) */
+    body { background-color: var(--cinza-fundo); font-family: 'Segoe UI', system-ui, sans-serif; color: var(--cinza-texto); line-height: 1.6; user-select: none; font-size: 20px !important; }
     
-    p, span, div, label, input, button, select, textarea, li { font-size: 12px !important; }
+    p, span, div, label, input, button, select, textarea, li, .form-check-label { font-size: 20px !important; }
     
-    h1, h2, h3, h4, h5, .titulo-topo { font-size: 15px !important; font-weight: 800; color: #78350F; margin-bottom: 10px;}
+    h1, h2, h3, h4, h5, .titulo-topo { font-size: 30px !important; font-weight: 800; color: var(--marrom-suave); margin-bottom: 15px;}
     
     .card-3d { 
-      background: #FFFFFF; 
-      border-radius: 12px; 
-      padding: 20px; 
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04); 
-      border: 1px solid #E2E8F0;
-      border-top: 5px solid #F97316; 
-      margin-bottom: 20px; 
+      background: var(--cinza-card); 
+      border-radius: 16px; 
+      padding: 30px; 
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
+      border: 1px solid var(--cinza-borda);
+      border-top: 6px solid var(--primaria); 
+      margin-bottom: 24px; 
     }
 
+    /* Ajuste do tamanho dos seletores para acompanhar a fonte de 20px */
+    .form-check-input { width: 24px; height: 24px; margin-top: 0.25em; cursor: pointer; }
+
     /* Antifraude */
-    @keyframes piscarAlerta { 0% { background-color: #EF4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);} 50% { background-color: #F59E0B; box-shadow: none;} 100% { background-color: #EF4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);} }
+    @keyframes piscarAlerta { 0% { background-color: #EF4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);} 50% { background-color: #F59E0B; box-shadow: none;} 100% { background-color: #EF4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);} }
     .tempo-acabando { animation: piscarAlerta 1s infinite; color: white !important; }
 
-    /* Botões Refinados */
-    .btn { font-weight: 700; padding: 10px 18px !important; border-radius: 8px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-    .btn-ouro { background: linear-gradient(135deg, #F59E0B, #FBBF24); color: #78350F; border: none; box-shadow: 0 3px 8px rgba(245, 158, 11, 0.2); }
-    .btn-ouro:hover { transform: translateY(-1px); box-shadow: 0 5px 12px rgba(245, 158, 11, 0.3); color: #78350F; }
-    .btn-primario { background-color: #F97316; color: white; border: none; box-shadow: 0 3px 8px rgba(249, 115, 22, 0.2); }
-    .btn-primario:hover { background-color: #EA580C; color: white; transform: translateY(-1px); }
+    /* Botões Confortáveis */
+    .btn { font-weight: 700; padding: 14px 28px !important; border-radius: 10px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-ouro { background: linear-gradient(135deg, var(--secundaria), #FBBF24); color: var(--marrom-suave); border: none; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2); }
+    .btn-ouro:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(245, 158, 11, 0.3); color: var(--marrom-suave); }
+    .btn-primario { background-color: var(--primaria); color: white; border: none; box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2); }
+    .btn-primario:hover { background-color: var(--primaria-hover); color: white; transform: translateY(-1px); }
     .btn:disabled { background-color: #E2E8F0 !important; cursor: not-allowed; border: none; color: #94A3B8 !important; box-shadow: none; }
     
     .escondido { display: none !important; }
     
-    /* Layout da Prova em tamanho menor */
-    .estudo-caso-box { background-color: #FFFBEB; border-left: 4px solid #F59E0B; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-style: italic; color: #78350F; }
-    .relogio-teste { font-size: 14px !important; font-weight: 800; color: white; background: #78350F; padding: 8px 25px; border-radius: 30px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1); letter-spacing: 1px;}
+    /* Elementos de Prova Adaptados */
+    .estudo-caso-box { background-color: #FFFBEB; border-left: 5px solid var(--secundaria); padding: 18px; border-radius: 8px; margin-bottom: 20px; font-style: italic; color: var(--marrom-suave); }
+    .relogio-teste { font-size: 24px !important; font-weight: 800; color: white; background: var(--marrom-suave); padding: 10px 35px; border-radius: 40px; display: inline-block; box-shadow: 0 5px 15px rgba(0,0,0,0.1); letter-spacing: 1px;}
     
-    .progress { background-color: #F1F5F9; border: 1px solid #E2E8F0; overflow: visible; height: 14px; border-radius: 10px;}
-    .progress-bar { background: linear-gradient(90deg, #F59E0B, #F97316); border-radius: 10px; transition: width 0.5s ease; }
+    .progress { background-color: #F1F5F9; border: 1px solid var(--cinza-borda); overflow: visible; height: 18px; border-radius: 12px;}
+    .progress-bar { background: linear-gradient(90deg, var(--secundaria), var(--primaria)); border-radius: 12px; transition: width 0.5s ease; }
 
-    .input-box-destaque { background-color: #F8FAFC; border: 1px solid #CBD5E1; font-weight: 700; color: #78350F; transition: all 0.2s; border-radius: 6px; text-align: center;}
-    .input-box-destaque:focus { outline: none; border-color: #F97316; box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.15); background-color: white;}
-    .form-control { border-color: #E2E8F0; border-radius: 6px; padding: 8px 10px; transition: all 0.2s;}
-    .form-control:focus { border-color: #F97316; box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.1); }
-    .form-check-input:checked { background-color: #F97316; border-color: #F97316; }
+    .input-box-destaque { background-color: #F8FAFC; border: 2px solid #CBD5E1; font-weight: 700; color: var(--marrom-suave); transition: all 0.2s; border-radius: 8px; text-align: center; width: 60px; height: 42px;}
+    .input-box-destaque:focus { outline: none; border-color: var(--primaria); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15); background-color: white;}
+    .form-control { border-color: var(--cinza-borda); border-radius: 8px; padding: 10px 14px; transition: all 0.2s;}
+    .form-control:focus { border-color: var(--primaria); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1); }
+    .form-check-input:checked { background-color: var(--primaria); border-color: var(--primaria); }
     
-    /* Animações Solicitadas */
+    .hover-shadow:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-color: var(--secundaria) !important; }
+    .transition { transition: all 0.2s; }
+
     @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
     .animacao-entrada { animation: slideUpFade 0.6s ease-out forwards; }
-    .icone-animado { animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
   </style>
 </head>
 <body oncopy="return false" oncut="return false" onpaste="return false">
 
   <div id="alertaViolacao" class="escondido" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 9999; background-color: rgba(15, 23, 42, 0.95); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-    <div style="background-color: #FFFFFF; padding: 25px; border-radius: 12px; text-align: center; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-top: 6px solid #EF4444;">
-      <i class="fas fa-shield-alt mb-2" style="font-size: 35px; color: #EF4444;"></i>
+    <div style="background-color: #FFFFFF; padding: 30px; border-radius: 16px; text-align: center; max-width: 550px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-top: 8px solid #EF4444;">
+      <i class="fas fa-shield-alt mb-3" style="font-size: 45px; color: #EF4444;"></i>
       <h2 class="fw-bold mb-2 text-dark">Alerta de Segurança</h2>
-      <div class="p-2 bg-light rounded border mb-3 text-start">
-        <p class="mb-1 text-secondary"><i class="fas fa-exclamation-circle text-warning me-1"></i> Você saiu da tela da atividade ou minimizou o navegador.</p>
+      <div class="p-3 bg-light rounded border mb-4 text-start">
+        <p class="mb-2 text-secondary"><i class="fas fa-exclamation-circle text-warning me-1"></i> Você saiu da tela da atividade ou minimizou o navegador.</p>
         <p class="mb-0 text-secondary">Lembre-se: Você só pode usar suas anotações no caderno ou sua apostila para responder essa questão. <strong>O uso de outras guias ou aplicativos não é permitido durante o tempo cronometrado.</strong></p>
       </div>
       <button class="btn btn-primario w-100 py-2" onclick="document.getElementById('alertaViolacao').classList.add('escondido')">ENTENDI, VOLTAR PARA A PROVA</button>
     </div>
   </div>
 
-  <div id="telaCarregando" class="container py-4 text-center mt-4">
-    <i class="fas fa-spinner fa-spin mb-2" style="font-size: 30px; color: #F97316;"></i>
-    <h3 class="text-secondary">Sincronizando Atividade...</h3>
+  <div id="telaCarregando" class="container py-5 text-center mt-5">
+    <i class="fas fa-spinner fa-spin mb-3" style="font-size: 40px; color: #F97316;"></i>
+    <h3 class="text-secondary fw-bold">Sincronizando Atividade...</h3>
     <p class="text-muted">Aguarde enquanto conectamos com o servidor.</p>
   </div>
 
-  <div id="telaIdentificacao" class="container py-4 escondido" style="max-width: 700px;">
-    <div class="card-3d shadow-sm" style="border-top-color: #F59E0B;">
-      <div class="text-center mb-3">
-        <i class="fas fa-graduation-cap mb-2" style="font-size: 30px; color: #F59E0B;"></i>
+  <div id="telaIdentificacao" class="container py-4 escondido" style="max-width: 850px;">
+    <div class="card-3d shadow-lg" style="border-top-color: #F59E0B;">
+      <div class="text-center mb-4">
+        <i class="fas fa-graduation-cap mb-2" style="font-size: 40px; color: #F59E0B;"></i>
         <h2 class="titulo-topo">Atividade Diagnóstica de Desempenho</h2>
       </div>
       
-      <p class="text-dark fw-bold text-center mb-2">Parabéns por concluir esta etapa do seu curso!</p>
-      <p class="text-secondary text-center mb-3">Esta atividade foi elaborada para avaliar os conhecimentos desenvolvidos na sua formação.</p>
+      <p class="text-dark fw-bold text-center mb-3">Parabéns por concluir esta etapa do seu curso!</p>
+      <p class="text-secondary mb-4 text-center">Esta atividade foi elaborada para avaliar os conhecimentos e as habilidades desenvolvidos ao longo da sua formação. As questões abordam conteúdos trabalhados durante as aulas e têm como objetivo identificar seu nível de aprendizagem e desempenho.</p>
       
-      <div class="bg-light p-3 rounded border mb-3">
-        <h5 class="fw-bold"><i class="fas fa-clipboard-list me-1" style="color: #F97316;"></i> Orientações Importantes</h5>
-        <ul class="text-secondary mt-2" style="list-style-type: none; padding-left: 0; margin-bottom: 0;">
-          <li class="mb-1"><i class="fas fa-check text-success me-1"></i> Leia cada questão com atenção antes de responder.</li>
-          <li class="mb-1"><i class="fas fa-check text-success me-1"></i> O tempo da atividade é rigorosamente controlado.</li>
-          <li><i class="fas fa-check text-success me-1"></i> Você terá no total <strong id="textoTempoTotal" class="text-dark">--</strong> para finalizar.</li>
+      <div class="bg-light p-4 rounded border mb-4">
+        <h5 class="fw-bold"><i class="fas fa-clipboard-list me-2" style="color: #F97316;"></i> Orientações Importantes</h5>
+        <ul class="text-secondary mt-3 mb-0" style="list-style-type: none; padding-left: 0;">
+          <li class="mb-2"><strong>·</strong> Leia cada questão com atenção antes de responder.</li>
+          <li class="mb-2"><strong>·</strong> Responda de acordo com os conhecimentos adquiridos durante o curso.</li>
+          <li class="mb-0"><strong>·</strong> Esta atividade possui tempo controlado para realização. Você terá exatamente <strong id="textoTempoTotal" class="text-dark">--</strong> para concluir todas as questões.</li>
         </ul>
       </div>
 
-      <div class="alert border" style="background-color: #FFFBEB; border-color: #FCD34D; color: #92400E; padding: 10px; margin-bottom: 20px;">
-        <p class="fw-bold mb-1"><i class="fas fa-exclamation-triangle me-1"></i> ATENÇÃO:</p>
-        <p class="mb-0">Após iniciar, o relógio não para. Se o tempo encerrar, o sistema exigirá que você avance com as respostas atuais.</p>
+      <div class="alert border" style="background-color: #FFFBEB; border-color: #FCD34D; color: #92400E; padding: 20px; margin-bottom: 24px;">
+        <p class="fw-bold mb-2">⚠️ Atenção:</p>
+        <p class="mb-3">Após iniciar a atividade, o tempo começará a ser contabilizado automaticamente. Caso o prazo seja encerrado antes da finalização, as questões não respondidas serão registradas com pontuação zero.</p>
+        <p class="mb-3">Se isso ocorrer, um novo link para realização de outra atividade será disponibilizado em sua próxima aula, possibilitando a obtenção da pontuação necessária para o acompanhamento do seu desempenho.</p>
+        <p class="mb-3">Em caso de dúvidas durante a realização da atividade, procure imediatamente seu Professor(a) ou Instrutor(a).</p>
+        <p class="mb-0 text-center fw-bold text-dark mt-2">Desejamos um excelente desempenho e sucesso em sua avaliação!</p>
       </div>
       
-      <div class="row g-2 mb-3">
+      <div class="row g-3 mb-4">
         <div class="col-md-8">
-          <label class="fw-bold mb-1 text-secondary">Nome Completo:</label>
+          <label class="fw-bold mb-2 text-secondary">Nome completo do Aluno(a):</label>
           <input type="text" id="nomeAluno" class="form-control bg-light" placeholder="Digite seu nome completo">
         </div>
         <div class="col-md-4">
-          <label class="fw-bold mb-1 text-secondary">Matrícula:</label>
-          <input type="text" id="matriculaAluno" class="form-control text-center bg-light" placeholder="Ex: 12345">
+          <label class="fw-bold mb-2 text-secondary">Matrícula:</label>
+          <input type="text" id="matriculaAluno" class="form-control text-center bg-light" placeholder="Nº da Matrícula">
         </div>
       </div>
       
-      <button id="btnIniciar" class="btn btn-primario w-100 py-2 shadow-sm" onclick="iniciarProva()">
-        Estou Pronto, Iniciar Atividade <i class="fas fa-arrow-right"></i>
+      <button id="btnIniciar" class="btn btn-primario w-100 py-3 shadow-sm" onclick="iniciarProva()">
+        Iniciar Atividade Diagnóstica <i class="fas fa-arrow-right ms-2"></i>
       </button>
     </div>
   </div>
 
-  <div id="telaAtividade" class="container py-3 escondido" style="max-width: 700px;">
-    <div class="mb-3 text-center">
-      <div id="relogioProva" class="relogio-teste mx-auto mb-2">⏳ Calculando...</div>
+  <div id="telaAtividade" class="container py-3 escondido" style="max-width: 850px;">
+    <div class="mb-4 text-center">
+      <div id="relogioProva" class="relogio-teste mx-auto mb-3">⏳ Calculando...</div>
       
-      <div class="d-flex justify-content-center mb-1 px-2">
+      <div class="d-flex justify-content-center mb-2 px-2">
         <span class="fw-bold text-secondary" id="textoProgressoTeste">0% da atividade concluída</span>
       </div>
       <div class="progress shadow-sm">
@@ -139,44 +151,44 @@
       </div>
     </div>
 
-    <div id="areaQuestao" class="card-3d shadow-sm mb-3" style="border-top-width: 5px; min-height: 150px; padding: 20px;">
+    <div id="areaQuestao" class="card-3d shadow-lg mb-4" style="border-top-width: 6px; min-height: 200px;">
     </div>
 
-    <div class="text-center mt-2 pb-4">
-      <button id="btnAvancar" class="btn btn-secondary w-100 shadow-sm" disabled onclick="avancarQuestao()" style="padding: 12px !important;">
-        Aguarde...
+    <div class="text-center mt-3 pb-5">
+      <button id="btnAvancar" class="btn btn-secondary w-100 shadow-sm" disabled onclick="avancarQuestao()" style="padding: 15px !important;">
+        Aguarde o término do tempo...
       </button>
     </div>
   </div>
 
-  <div id="telaFimProva" class="container py-5 escondido" style="max-width: 600px;">
-    <div class="card-3d text-center py-4 shadow-sm animacao-entrada" style="border-top-width: 6px; border-top-color: #10B981;">
-      <div class="icone-animado mb-2"><i class="fas fa-check-circle" style="font-size: 45px; color: #10B981;"></i></div>
-      <h2 class="titulo-topo text-dark mb-2">Parabéns, você finalizou essa atividade!</h2>
-      <p class="text-secondary mb-4">Sua avaliação foi concluída. O que você deseja fazer agora?</p>
+  <div id="telaFimProva" class="container py-5 escondido" style="max-width: 700px;">
+    <div class="card-3d text-center py-5 shadow-lg animacao-entrada" style="border-top-width: 6px; border-top-color: #10B981;">
+      <div class="mb-3"><i class="fas fa-check-circle" style="font-size: 60px; color: #10B981;"></i></div>
+      <h2 class="titulo-topo text-dark mb-3">Parabéns, você finalizou essa atividade!</h2>
+      <p class="text-secondary mb-5">Sua avaliação foi concluída com sucesso. O que você deseja fazer agora?</p>
       
-      <div class="d-flex flex-column gap-2 mt-2 align-items-center">
-        <button class="btn btn-ouro shadow-sm w-75" onclick="mostrarGabarito()">
-          <i class="fas fa-list-check"></i> Ver pontuação/Correção
+      <div class="d-flex flex-column gap-3 mt-2 align-items-center w-100">
+        <button class="btn btn-ouro shadow-sm w-75 py-3" onclick="mostrarGabarito()">
+          <i class="fas fa-list-check me-2"></i> Ver pontuação/Correção
         </button>
-        <button class="btn btn-primario shadow-sm w-75" onclick="enviarDiretoAoProfessor()">
-          <i class="fas fa-paper-plane"></i> Enviar Direto ao Professor
+        <button class="btn btn-primario shadow-sm w-75 py-3" onclick="enviarDiretoAoProfessor()">
+          <i class="fas fa-paper-plane me-2"></i> Enviar Direto ao Professor
         </button>
       </div>
     </div>
   </div>
 
-  <div id="telaProcessando" class="container py-5 escondido text-center mt-4">
-      <i class="fas fa-sync-alt fa-spin mb-3" style="font-size: 35px; color: #F59E0B;"></i>
+  <div id="telaProcessando" class="container py-5 escondido text-center mt-5">
+      <i class="fas fa-sync-alt fa-spin mb-3" style="font-size: 45px; color: #F59E0B;"></i>
       <h3 class="titulo-topo text-dark">Processando...</h3>
-      <p class="text-secondary">Enviando dados ao servidor.</p>
+      <p class="text-secondary">Enviando dados ao servidor pedagógico.</p>
   </div>
 
-  <div id="telaRelatorio" class="container py-3 escondido" style="max-width: 750px;">
+  <div id="telaRelatorio" class="container py-3 escondido" style="max-width: 850px;">
     <div id="areaResumoDesempenho"></div>
     
-    <h4 class="text-secondary mt-4 mb-3 fw-bold border-bottom pb-2"><i class="fas fa-check-double text-primary"></i> Revisão das Questões</h4>
-    <div id="areaChecklist" class="pb-3"></div>
+    <h4 class="text-secondary mt-5 mb-4 fw-bold border-bottom pb-3"><i class="fas fa-check-double text-primary me-2"></i> Revisão das Questões</h4>
+    <div id="areaChecklist" class="pb-4"></div>
   </div>
 
   <script>
@@ -197,9 +209,9 @@
           let vid = "";
           if (url.includes('v=')) vid = url.split('v=')[1].split('&')[0];
           else if (url.includes('youtu.be/')) vid = url.split('youtu.be/')[1].split('?')[0];
-          if(vid) return '<div class="text-center mb-3"><iframe width="100%" height="200" src="https://www.youtube.com/embed/' + vid + '" frameborder="0" allowfullscreen class="rounded border shadow-sm"></iframe></div>';
+          if(vid) return '<div class="text-center mb-4"><iframe width="100%" height="315" src="https://www.youtube.com/embed/' + vid + '" frameborder="0" allowfullscreen class="rounded border shadow-sm"></iframe></div>';
         } else if (url.startsWith('http')) {
-          return '<div class="text-center mb-3"><img src="' + url + '" class="img-fluid rounded border shadow-sm" style="max-height: 200px; width: auto;"></div>';
+          return '<div class="text-center mb-4"><img src="' + url + '" class="img-fluid rounded border shadow-sm" style="max-height: 280px; width: auto;"></div>';
         }
       } catch(e) {}
       return '';
@@ -207,7 +219,7 @@
 
     window.onload = function() {
       if(!idCaderno) { 
-        document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-exclamation-circle mb-2 text-danger" style="font-size: 30px;"></i><h3 class="fw-bold text-dark">Link Inválido</h3><p class="text-muted">Falta o código da atividade na URL.</p>'; 
+        document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-exclamation-circle mb-2 text-danger" style="font-size: 40px;"></i><h3 class="fw-bold text-dark">Link Inválido</h3><p class="text-muted">Falta o código identificador da atividade na URL.</p>'; 
         return; 
       }
       
@@ -215,7 +227,7 @@
         .then(response => response.json())
         .then(data => prepararProva(data))
         .catch(error => { 
-          document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-wifi mb-2 text-danger" style="font-size: 30px;"></i><h3 class="fw-bold text-dark">Erro de Conexão</h3><p class="text-muted">Não foi possível carregar a atividade. Atualize a página.</p>'; 
+          document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-wifi mb-2 text-danger" style="font-size: 40px;"></i><h3 class="fw-bold text-dark">Erro de Conexão</h3><p class="text-muted">Não foi possível estabelecer contato com o banco de dados. Atualize a página.</p>'; 
         });
     };
 
@@ -223,7 +235,7 @@
       document.getElementById('telaCarregando').classList.add('escondido');
       if(!caderno || !caderno.questoes) { 
         document.getElementById('telaCarregando').classList.remove('escondido');
-        document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-box-open mb-2 text-warning" style="font-size: 30px;"></i><h3 class="fw-bold text-dark">Atividade Indisponível</h3><p class="text-muted">Este caderno foi removido ou não existe.</p>'; 
+        document.getElementById('telaCarregando').innerHTML = '<i class="fas fa-box-open mb-2 text-warning" style="font-size: 40px;"></i><h3 class="fw-bold text-dark">Atividade Indisponível</h3><p class="text-muted">Este caderno de questões foi removido pelo professor.</p>'; 
         return; 
       }
       
@@ -231,8 +243,12 @@
       document.getElementById('telaIdentificacao').classList.remove('escondido');
       
       let totalSegundos = caderno.questoes.reduce((acc, q) => acc + parseInt(q.tempo || 0), 0);
-      let m = Math.floor(totalSegundos / 60); let s = totalSegundos % 60;
-      document.getElementById('textoTempoTotal').innerText = `${m} min e ${s} seg`;
+      let h = Math.floor(totalSegundos / 3600); let m = Math.floor((totalSegundos % 3600) / 60); let s = totalSegundos % 60;
+      let txtTempo = ""; 
+      if(h > 0) txtTempo += `${h} horas, `; 
+      txtTempo += `${m} minutos e ${s} segundos`;
+      
+      document.getElementById('textoTempoTotal').innerText = txtTempo;
       respostasAluno = new Array(caderno.questoes.length).fill(null);
     }
 
@@ -243,7 +259,7 @@
       
       const btn = document.getElementById('btnAvancar');
       btn.disabled = true; btn.className = "btn btn-secondary w-100 shadow-sm"; 
-      btn.innerText = `Aguarde o tempo... (${tempoRestante}s)`;
+      btn.innerText = `Aguarde o término do tempo... (${tempoRestante}s)`;
 
       document.getElementById('alertaViolacao').classList.remove('escondido');
     }
@@ -254,7 +270,7 @@
     function iniciarProva() {
       const nome = document.getElementById('nomeAluno').value.trim();
       const mat = document.getElementById('matriculaAluno').value.trim();
-      if(!nome || !mat) { alert("⚠️ Preencha seu Nome e Matrícula."); return; }
+      if(!nome || !mat) { alert("⚠️ Por favor, preencha Nome e Matrícula para iniciar."); return; }
       
       document.getElementById('telaIdentificacao').classList.add('escondido');
       document.getElementById('telaAtividade').classList.remove('escondido');
@@ -264,7 +280,6 @@
 
     function carregarQuestao() {
       if(indiceAtual >= provaAtual.questoes.length) { 
-          // Ao invés de mandar pro servidor agora, mostramos a tela de "Parabéns"
           document.getElementById('telaAtividade').classList.add('escondido');
           document.getElementById('telaFimProva').classList.remove('escondido');
           provaRodando = false; clearInterval(timer);
@@ -281,28 +296,28 @@
       document.getElementById('textoProgressoTeste').innerText = `${pct}% da atividade concluída`;
       document.getElementById('barraProgresso').style.width = `${pct}%`;
       
-      let html = `<div class="text-secondary fw-bold mb-3 border-bottom pb-1 text-uppercase"><i class="fas fa-clipboard-list text-primary me-1"></i> ${provaAtual.titulo || "Avaliação"}</div>`;
+      let html = `<div class="text-secondary fw-bold mb-4 border-bottom pb-2 text-uppercase tracking-wide"><i class="fas fa-clipboard-check text-primary me-2"></i> ${provaAtual.titulo || "Avaliação"}</div>`;
       
       if(q.midia) html += renderizarMidia(q.midia);
       if(q.tipo === "estudo_caso") html += `<div class="estudo-caso-box shadow-sm">${(q.contexto || "").replace(/\n/g, '<br>')}</div>`;
       
       if(q.tipo === "lacunas") {
-        let enunciadoFormatado = (q.enunciado || "").replace(/_{3,}/g, '<input type="text" class="form-control d-inline-block resp-multi input-box-destaque mx-1" style="width:80px; height:25px;" oninput="checarPreenchimento()">');
-        html += `<p class="fw-bold mb-3 text-dark">${enunciadoFormatado}</p>`;
+        let enunciadoFormatado = (q.enunciado || "").replace(/_{3,}/g, '<input type="text" class="form-control d-inline-block resp-multi input-box-destaque mx-1 shadow-sm" style="width:100px; height:35px;" oninput="checarPreenchimento()">');
+        html += `<p class="fw-bold mb-4 text-dark">${enunciadoFormatado}</p>`;
       } else if(q.tipo !== "assercao_razao") {
-        html += `<p class="fw-bold mb-3 text-dark">${q.enunciado || ""}</p>`;
+        html += `<p class="fw-bold mb-4 text-dark">${q.enunciado || ""}</p>`;
       }
 
       if (q.tipo === "multipla_escolha") {
         ['A','B','C','D','E'].forEach(l => { 
             if(q.opcoes && q.opcoes[l]) {
-                html += `<div class="form-check mb-2 p-2 bg-light rounded border hover-shadow transition"><input class="form-check-input ms-0 me-2" type="radio" name="resp" value="${l}" id="opt_${l}" onclick="checarPreenchimento()"><label class="form-check-label text-dark w-100" for="opt_${l}" style="cursor:pointer;"><strong>${l})</strong> ${q.opcoes[l]}</label></div>`; 
+                html += `<div class="form-check mb-3 p-3 bg-light rounded border hover-shadow transition"><input class="form-check-input ms-0 me-3" type="radio" name="resp" value="${l}" id="opt_' + l + '" onclick="checarPreenchimento()"><label class="form-check-label text-dark w-100" for="opt_' + l + '" style="cursor:pointer; padding-left: 5px;"><strong>${l})</strong> ${q.opcoes[l]}</label></div>`; 
             }
         });
       } else if (q.tipo === "certo_errado") {
-        html += `<div class="d-flex gap-3 mb-2"><div class="form-check p-2 bg-light rounded border w-50 text-center hover-shadow transition"><input class="form-check-input float-none ms-0 me-1" type="radio" name="resp" value="Certo" id="opt_C" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-success w-100" for="opt_C" style="cursor:pointer;">CERTO</label></div><div class="form-check p-2 bg-light rounded border w-50 text-center hover-shadow transition"><input class="form-check-input float-none ms-0 me-1" type="radio" name="resp" value="Errado" id="opt_E" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-danger w-100" for="opt_E" style="cursor:pointer;">ERRADO</label></div></div>`;
+        html += `<div class="d-flex gap-4 mb-3"><div class="form-check p-3 bg-light rounded border w-50 text-center hover-shadow transition"><input class="form-check-input float-none ms-0 me-2" type="radio" name="resp" value="Certo" id="opt_C" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-success w-100" for="opt_C" style="cursor:pointer;">CERTO</label></div><div class="form-check p-3 bg-light rounded border w-50 text-center hover-shadow transition"><input class="form-check-input float-none ms-0 me-2" type="radio" name="resp" value="Errado" id="opt_E" onclick="checarPreenchimento()"><label class="form-check-label fw-bold text-danger w-100" for="opt_E" style="cursor:pointer;">ERRADO</label></div></div>`;
       } else if (q.tipo === "assercao_razao") {
-        html += `<div class="bg-light p-3 rounded mb-3 border shadow-sm"><p class="mb-1 fw-bold">I. ${q.assercao}</p><div class="text-danger fw-bold my-2 text-center"><i class="fas fa-link"></i> PORQUE</div><p class="mb-0 fw-bold">II. ${q.razao}</p></div>`;
+        html += `<div class="bg-light p-4 rounded mb-4 border shadow-sm"><p class="mb-2 fw-bold">I. ${q.assercao}</p><div class="text-danger fw-bold my-3 text-center"><i class="fas fa-link"></i> PORQUE</div><p class="mb-0 fw-bold">II. ${q.razao}</p></div>`;
         let assOpcoes = [
             {v: "A", t: "A) A I é verdadeira, a II é verdadeira e justifica a I."},
             {v: "B", t: "B) A I é verdadeira, a II é verdadeira, mas NÃO justifica a I."},
@@ -312,24 +327,24 @@
         ];
         html += `<div>`;
         assOpcoes.forEach(op => {
-            html += `<div class="form-check mb-1 p-2 rounded bg-light hover-shadow border transition"><input class="form-check-input ms-1 me-2" type="radio" name="resp" value="${op.v}" id="ass_${op.v}" onclick="checarPreenchimento()"> <label class="form-check-label w-100" for="ass_${op.v}" style="cursor:pointer;">${op.t}</label></div>`;
+            html += `<div class="form-check mb-2 p-3 rounded bg-light hover-shadow border transition"><input class="form-check-input ms-1 me-3" type="radio" name="resp" value="${op.v}" id="ass_${op.v}" onclick="checarPreenchimento()"> <label class="form-check-label w-100" for="ass_${op.v}" style="cursor:pointer; padding-left: 5px;">${op.t}</label></div>`;
         });
         html += `</div>`;
       } else if (q.tipo === "associacao") {
-        html += `<div class="row g-2"><div class="col-sm-5 border-end pe-2">`;
-        q.pares.forEach((p, idx) => { html += `<div class="mb-2 text-dark p-1 bg-light rounded border"><strong>${idx+1}.</strong> ${p.a}</div>`; });
-        html += `</div><div class="col-sm-7 ps-2">`;
+        html += `<div class="row g-3"><div class="col-sm-5 border-end pe-3">`;
+        q.pares.forEach((p, idx) => { html += `<div class="mb-3 text-dark p-2 bg-light rounded border shadow-sm"><strong>${idx+1}.</strong> ${p.a}</div>`; });
+        html += `</div><div class="col-sm-7 ps-3">`;
         q.pares.forEach((p, idx) => { 
-          let displayItem = (q.b_is_img && p.b.startsWith('http')) ? `<img src="${p.b}" class="rounded border shadow-sm" style="max-height: 40px; max-width: 100px;">` : `<span class="fw-bold">${p.b}</span>`;
-          html += `<div class="d-flex align-items-center mb-2 bg-white p-1 rounded border shadow-sm transition hover-shadow"><input type="text" class="form-control text-center resp-multi input-box-destaque me-2 p-0" style="width:35px; height:30px;" oninput="checarPreenchimento()"> ${displayItem}</div>`; 
+          let displayItem = (q.b_is_img && p.b.startsWith('http')) ? '<img src="' + p.b + '" class="rounded border shadow-sm" style="max-height: 55px; max-width: 130px;">' : `<span class="fw-bold">${p.b}</span>`;
+          html += `<div class="d-flex align-items-center mb-3 bg-white p-2 rounded border shadow-sm transition hover-shadow"><input type="text" class="form-control text-center resp-multi input-box-destaque me-3 p-0" style="width:50px; height:42px; font-size:20px !important;" oninput="checarPreenchimento()"> ${displayItem}</div>`; 
         });
         html += `</div></div>`;
       } else if (q.tipo === "ordenacao") {
-        q.lista.forEach((item, idx) => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded border shadow-sm hover-shadow transition"><div style="width: 85%;" class="ps-1 fw-bold text-dark">${item}</div><div style="width: 15%;" class="text-end pe-1"><input type="text" class="form-control text-center resp-multi input-box-destaque d-inline p-0 shadow-sm" style="width:35px; height:30px;" oninput="checarPreenchimento()"></div></div>`; });
+        q.lista.forEach((item, idx) => { html += `<div class="d-flex align-items-center mb-3 bg-light p-3 rounded border shadow-sm hover-shadow transition"><div style="width: 80%;" class="ps-2 fw-bold text-dark">${item}</div><div style="width: 20%;" class="text-end pe-2"><input type="text" class="form-control text-center resp-multi input-box-destaque d-inline p-0 shadow-sm" style="width:55px; height:42px; font-size:20px !important;" oninput="checarPreenchimento()"></div></div>`; });
       } else if (q.tipo === "verdadeiro_falso_mult") {
-        q.lista.forEach(item => { html += `<div class="d-flex align-items-center mb-2 bg-light p-2 rounded border shadow-sm hover-shadow transition"><input type="text" class="form-control text-center resp-multi input-box-destaque me-2 p-0 shadow-sm text-uppercase" style="width:35px; height:30px; font-weight: 800;" maxlength="1" oninput="checarPreenchimento()"><span class="fw-bold text-dark">${item}</span></div>`; });
+        q.lista.forEach(item => { html += `<div class="d-flex align-items-center mb-3 bg-light p-3 rounded border shadow-sm hover-shadow transition"><input type="text" class="form-control text-center resp-multi input-box-destaque me-4 p-0 shadow-sm text-uppercase" style="width:50px; height:42px; font-weight: 800; font-size:20px !important;" maxlength="1" oninput="checarPreenchimento()"><span class="fw-bold text-dark">${item}</span></div>`; });
       } else if (q.tipo !== "lacunas") {
-        html += `<textarea class="form-control resp-multi p-2 input-box-destaque shadow-sm" rows="4" placeholder="Digite sua resposta..." oninput="checarPreenchimento()"></textarea>`;
+        html += `<textarea class="form-control resp-multi p-3 input-box-destaque shadow-sm" rows="5" placeholder="Digite sua resposta detalhada aqui..." oninput="checarPreenchimento()" style="font-size: 20px !important; text-align: left;"></textarea>`;
       }
       
       document.getElementById('areaQuestao').innerHTML = html;
@@ -344,18 +359,19 @@
       
       if (tempoRestante <= 0) {
         tempoRestante = 0; 
-        relogio.innerHTML = `<i class="fas fa-lock"></i> Esgotado`; 
+        relogio.innerHTML = `<i class="fas fa-lock" style="font-size: 20px;"></i> Tempo Obrigatório Concluído`; 
         relogio.classList.remove('tempo-acabando'); 
         clearInterval(timer);
         checarPreenchimento(); 
         return;
       }
       
-      relogio.innerHTML = `<i class="fas fa-stopwatch"></i> ${tempoRestante}s`;
+      relogio.innerHTML = `<i class="fas fa-stopwatch" style="font-size: 20px;"></i> ${tempoRestante}s`;
       if(tempoRestante <= 10) { relogio.classList.add('tempo-acabando'); } else { relogio.classList.remove('tempo-acabando'); }
       
-      btn.disabled = true; btn.className = "btn btn-secondary w-100 shadow-sm"; 
-      btn.innerHTML = `Aguarde... <span class="badge bg-white text-secondary ms-1">${tempoRestante}s</span>`;
+      btn.disabled = true; 
+      btn.className = "btn btn-secondary w-100 shadow-sm"; 
+      btn.innerHTML = `Aguarde o término do tempo... (${tempoRestante}s)`;
     }
 
     function checarPreenchimento() {
@@ -375,10 +391,10 @@
 
       if(respondeu) {
         btn.disabled = false; btn.className = "btn btn-ouro w-100 shadow-sm text-dark";
-        btn.innerHTML = (indiceAtual === provaAtual.questoes.length - 1) ? 'Concluir' : 'Confirmar e Avançar';
+        btn.innerHTML = (indiceAtual === provaAtual.questoes.length - 1) ? 'Finalizar Atividade' : 'Confirmar e Avançar';
       } else {
         btn.disabled = true; btn.className = "btn btn-secondary w-100 shadow-sm"; 
-        btn.innerHTML = `<i class="fas fa-pen me-1"></i> Preencha para avançar`;
+        btn.innerHTML = `Por favor, responda a questão para poder avançar`;
       }
     }
 
@@ -400,8 +416,7 @@
       
       indiceAtual++; carregarQuestao();
     }
-
-    // Função silenciosa que calcula as notas e envia via API antes do aluno decidir o botão
+    
     function processarRespostasSilenciosamente() {
       provaAtual.questoes.forEach((q, i) => {
         let respA = respostasAluno[i] || ""; let gabarito = q.resposta || ""; let pts = parseFloat(q.pontos) || 0;
@@ -426,12 +441,11 @@
       }).then(res => { dadosEnviadosComSucesso = true; }).catch(err => { dadosEnviadosComSucesso = false; });
     }
 
-    // Ação do Botão: "Enviar Direto ao Professor"
     function enviarDiretoAoProfessor() {
         alert("Atividade enviada com sucesso ao seu professor! Você já pode fechar esta aba.");
     }
 
-    // Ação do Botão: "Ver pontuação/Correção"
+    // GABARITO E EXIBIÇÃO EM NETO DA PONTUAÇÃO (CORREÇÃO DE PORCENTAGEM)
     function mostrarGabarito() {
       document.getElementById('telaFimProva').classList.add('escondido');
       document.getElementById('telaRelatorio').classList.remove('escondido');
@@ -450,19 +464,19 @@
           let enc = 0; pc.forEach(p => { if(respA.toLowerCase().includes(p)) enc++; });
           let perc = pc.length > 0 ? (enc / pc.length) : 0;
           
-          if(perc >= 0.8) { acertoFracao = 1; corStatusHex = "#10B981"; statusTexto = "Excelente"; icone = "<i class='fas fa-star text-white'></i>"; } 
-          else if (perc >= 0.5) { acertoFracao = 0.75; corStatusHex = "#0EA5E9"; statusTexto = "Satisfatório"; icone = "<i class='fas fa-check text-white'></i>"; }
-          else if (perc >= 0.25) { acertoFracao = 0.40; corStatusHex = "#F59E0B"; statusTexto = "Parcialmente Satisfatório"; icone = "<i class='fas fa-exclamation-triangle text-dark'></i>"; }
-          else { acertoFracao = 0; corStatusHex = "#EF4444"; statusTexto = "Insatisfatório"; icone = "<i class='fas fa-times text-white'></i>"; }
+          if(perc >= 0.8) { acertoFracao = 1; corStatusHex = "#10B981"; statusTexto = "Excelente"; icone = "<i class='fas fa-star text-white' style='font-size:16px;'></i>"; } 
+          else if (perc >= 0.5) { acertoFracao = 0.75; corStatusHex = "#0EA5E9"; statusTexto = "Satisfatório"; icone = "<i class='fas fa-check text-white' style='font-size:16px;'></i>"; }
+          else if (perc >= 0.25) { acertoFracao = 0.40; corStatusHex = "#F59E0B"; statusTexto = "Parcialmente Satisfatório"; icone = "<i class='fas fa-exclamation-triangle text-dark' style='font-size:16px;'></i>"; }
+          else { acertoFracao = 0; corStatusHex = "#EF4444"; statusTexto = "Insatisfatório"; icone = "<i class='fas fa-times text-white' style='font-size:16px;'></i>"; }
         } else {
           let mapRetro = {"A":"I", "B":"II", "C":"III", "D":"IV", "E":"V"};
           if(q.tipo === 'assercao_razao' && mapRetro[gabarito]) gabarito = mapRetro[gabarito];
 
           let aLimpo = respA.replace(/\s/g,'').toLowerCase(); let gLimpo = gabarito.replace(/\s/g,'').toLowerCase();
           if(aLimpo === gLimpo && aLimpo !== "") { 
-              acertoFracao = 1; corStatusHex = "#10B981"; statusTexto = "Correto"; icone = "<i class='fas fa-check-circle text-white'></i>"; 
+              acertoFracao = 1; corStatusHex = "#10B981"; statusTexto = "Correto"; icone = "<i class='fas fa-check-circle text-white' style='font-size:16px;'></i>"; 
           } else { 
-              acertoFracao = 0; corStatusHex = "#EF4444"; statusTexto = "Incorreto"; icone = "<i class='fas fa-times-circle text-white'></i>"; 
+              acertoFracao = 0; corStatusHex = "#EF4444"; statusTexto = "Incorreto"; icone = "<i class='fas fa-times-circle text-white' style='font-size:16px;'></i>"; 
           }
         }
         
@@ -471,23 +485,23 @@
         let enunciadoQuestao = q.enunciado || "Questão " + (i+1);
 
         htmlGabarito += `
-          <div class="card mb-3 shadow-sm border-0" style="border-left: 5px solid ${corStatusHex} !important; border-radius: 8px; overflow: hidden;">
+          <div class="card mb-3 shadow-sm border-0" style="border-left: 6px solid ${corStatusHex} !important; border-radius: 12px; overflow: hidden;">
              <div class="card-header py-2" style="background-color: #F8FAFC; border-bottom: 1px solid #E2E8F0;">
-                 <span class="fw-bold" style="color: #334155;"><i class="fas fa-layer-group me-1" style="color: ${corStatusHex};"></i> Questão ${i+1}: <span class="text-secondary fw-normal">${enunciadoQuestao.substring(0,60)}...</span></span>
+                 <span class="fw-bold" style="color: #334155;"><i class="fas fa-layer-group me-1" style="color: ${corStatusHex}; font-size:16px;"></i> Questão ${i+1}: <span class="text-secondary fw-normal">${enunciadoQuestao.substring(0,80)}...</span></span>
              </div>
              <div class="card-body p-3">
                  <div class="row g-3">
                      <div class="col-md-12">
-                         <div class="text-secondary fw-bold mb-1 text-uppercase"><i class="fas fa-user-edit me-1"></i> Sua Resposta</div>
-                         <div class="p-2 bg-light border rounded text-dark" style="min-height: 35px;">${respA || '<span class="text-muted fst-italic"><i class="fas fa-minus me-1"></i> Deixada em branco</span>'}</div>
+                         <div class="text-secondary fw-bold mb-1 text-uppercase" style="font-size:15px !important;"><i class="fas fa-user-edit me-1" style="font-size:16px;"></i> Sua Resposta</div>
+                         <div class="p-2 bg-light border rounded text-dark" style="min-height: 40px;">${respA || '<span class="text-muted fst-italic"><i class="fas fa-minus me-1"></i> Deixada em branco</span>'}</div>
                      </div>
                      <div class="col-md-12 mt-2">
-                         <div class="fw-bold mb-1 text-uppercase" style="color: #10B981;"><i class="fas fa-book-open me-1"></i> Resposta Esperada</div>
-                         <div class="p-2 border rounded text-dark" style="min-height: 35px; background-color: #F0FDF4; border-color: #BBF7D0 !important;">${gabarito}</div>
+                         <div class="fw-bold mb-1 text-uppercase" style="color: #10B981; font-size:15px !important;"><i class="fas fa-book-open me-1" style="font-size:16px;"></i> Resposta Esperada</div>
+                         <div class="p-2 border rounded text-dark" style="min-height: 40px; background-color: #F0FDF4; border-color: #BBF7D0 !important;">${gabarito}</div>
                      </div>
                  </div>
                  <div class="mt-3 text-end">
-                     <span class="badge px-3 py-1 shadow-sm" style="background-color: ${corStatusHex}; color: ${textColorForBadge}; border-radius: 20px;">
+                     <span class="badge px-3 py-2 shadow-sm" style="background-color: ${corStatusHex}; color: ${textColorForBadge}; border-radius: 20px; font-size:15px !important;">
                          ${icone} ${statusTexto}
                      </span>
                  </div>
@@ -498,12 +512,12 @@
       
       document.getElementById('areaChecklist').innerHTML = htmlGabarito;
 
+      // Cálculo matemático real baseado estritamente no fracionamento das questões respondidas
       let aproveitamento = totalQuestoes > 0 ? (somaAcertosParaPorcentagem / totalQuestoes) * 100 : 0;
       let pctFormatado = aproveitamento % 1 === 0 ? aproveitamento : aproveitamento.toFixed(2);
       
       let txtCriterio = ""; let descCriterio = ""; let corAproveitamento = "";
 
-      // Critérios restritos e copiados do seu texto base
       if (aproveitamento >= 80) { 
           txtCriterio = "Excelente"; 
           descCriterio = "Atendeu integralmente à proposta, apresentando resposta completa, clara e correta."; 
@@ -526,14 +540,14 @@
       }
 
       document.getElementById('areaResumoDesempenho').innerHTML = `
-        <div class="card-3d text-center py-4 px-2 shadow-sm" style="border-top-width: 6px !important; border-top-color: var(--${corAproveitamento}); background-color: #ffffff;">
-            <h5 class="text-secondary fw-bold mb-2 text-uppercase"><i class="fas fa-chart-pie me-1"></i> Rendimento Final</h5>
-            <div class="fw-bold mb-0" style="color: var(--${corAproveitamento}); font-size: 55px !important;">${pctFormatado}%</div>
-            <div class="text-muted fw-bold mb-3">/ 100%</div>
+        <div class="card-3d text-center py-4 px-2 shadow-sm" style="border-top-width: 8px !important; border-top-color: var(--${corAproveitamento}); background-color: #ffffff;">
+            <h5 class="text-secondary fw-bold mb-2 text-uppercase"><i class="fas fa-chart-pie me-1" style="font-size:16px;"></i> Rendimento Final</h5>
+            <div class="fw-bold mb-0" style="color: var(--${corAproveitamento}); font-size: 65px !important;">${pctFormatado}%</div>
+            <div class="text-muted fw-bold mb-3" style="font-size:18px !important;">/ 100%</div>
             
-            <div class="mt-2 p-3 rounded text-center mx-auto shadow-sm" style="max-width: 600px; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-bottom: 4px solid var(--${corAproveitamento});">
+            <div class="mt-2 p-3 rounded text-center mx-auto shadow-sm" style="max-width: 650px; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-bottom: 4px solid var(--${corAproveitamento});">
                 <h4 class="text-dark fw-bold mb-2">${txtCriterio}</h4>
-                <p class="text-secondary mb-0">${descCriterio}</p>
+                <p class="text-secondary mb-0" style="font-size: 16px !important; line-height:1.5;">${descCriterio}</p>
             </div>
         </div>
       `;
